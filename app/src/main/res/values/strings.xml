@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MinhaQuadra</string>
+    <string name="login_nao_possui_cadastro">Ainda não possui cadastro?</string>
+    <string name="login_btn_cadastro">Cadastre-se</string>
+    <string name="login_bem_vindo">Seja Bem Vindo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
