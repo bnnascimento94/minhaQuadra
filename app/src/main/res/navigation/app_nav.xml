@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_agendaFragment"
             app:destination="@id/agendaFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cadastrarTimeFragment"
+            app:destination="@id/cadastrarTimeFragment" />
     </fragment>
     <fragment
         android:id="@+id/agendaFragment"
@@ -27,4 +30,9 @@
         android:name="com.example.minhaquadra.MatchesFragment"
         android:label="fragment_matches"
         tools:layout="@layout/fragment_matches" />
+    <fragment
+        android:id="@+id/cadastrarTimeFragment"
+        android:name="com.example.minhaquadra.CadastrarTimeFragment"
+        android:label="fragment_cadastrar_time"
+        tools:layout="@layout/fragment_cadastrar_time" />
 </navigation>

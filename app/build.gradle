@@ -5,6 +5,9 @@ plugins {
 
 android {
     compileSdk 30
+    dataBinding {
+        enabled = true
+    }
 
     defaultConfig {
         applicationId "com.example.minhaquadra"

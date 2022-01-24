@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/home"
-        android:visible="true"
-        android:icon="@drawable/splash_football"
-        android:title="Home"
-        />
-
-    <item
-        android:id="@+id/agenda"
-        android:visible="true"
-        android:icon="@drawable/splash_football"
-        android:title="Agenda"
-        />
-
-    <item
-        android:id="@+id/matches"
-        android:visible="true"
-        android:icon="@drawable/splash_football"
-        android:title="Partidas" />
-
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/page_1"
+    android:enabled="true"
+    android:icon="@drawable/ic_home"
+    android:title="Home"/>
+<item
+    android:id="@+id/page_2"
+    android:enabled="true"
+    android:icon="@drawable/ic_agenda"
+    android:title="Agenda" />
+<item
+    android:id="@+id/page_3"
+    android:enabled="true"
+    android:icon="@drawable/ic_partidas"
+    android:title="Partidas"/>
 
 </menu>

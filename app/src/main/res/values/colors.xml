@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green_aqua">#00FFFF</color>
     <color name="main_color">#1CB5E0</color>
+
+    <color name="buttons_color">#6B61D7</color>
 </resources>
