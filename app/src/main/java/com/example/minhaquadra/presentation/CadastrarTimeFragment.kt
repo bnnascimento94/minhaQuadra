@@ -1,4 +1,4 @@
-package com.example.minhaquadra.login
+package com.example.minhaquadra.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import com.example.minhaquadra.R
 
 
-class loginFragment : Fragment() {
+class CadastrarTimeFragment : Fragment() {
+
 
 
     override fun onCreateView(
@@ -16,7 +17,8 @@ class loginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        return inflater.inflate(R.layout.fragment_cadastrar_time, container, false)
     }
+
 
 }

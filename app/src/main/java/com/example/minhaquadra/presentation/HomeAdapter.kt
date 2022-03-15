@@ -1,4 +1,4 @@
-package com.example.minhaquadra
+package com.example.minhaquadra.presentation
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

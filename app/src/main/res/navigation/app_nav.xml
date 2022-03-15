@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.minhaquadra.HomeFragment"
+        android:name="com.example.minhaquadra.presentation.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -22,17 +22,17 @@
     </fragment>
     <fragment
         android:id="@+id/agendaFragment"
-        android:name="com.example.minhaquadra.AgendaFragment"
+        android:name="com.example.minhaquadra.presentation.AgendaFragment"
         android:label="fragment_agenda"
         tools:layout="@layout/fragment_agenda" />
     <fragment
         android:id="@+id/matchesFragment"
-        android:name="com.example.minhaquadra.MatchesFragment"
+        android:name="com.example.minhaquadra.presentation.MatchesFragment"
         android:label="fragment_matches"
         tools:layout="@layout/fragment_matches" />
     <fragment
         android:id="@+id/cadastrarTimeFragment"
-        android:name="com.example.minhaquadra.CadastrarTimeFragment"
+        android:name="com.example.minhaquadra.presentation.CadastrarTimeFragment"
         android:label="fragment_cadastrar_time"
         tools:layout="@layout/fragment_cadastrar_time" />
 </navigation>
