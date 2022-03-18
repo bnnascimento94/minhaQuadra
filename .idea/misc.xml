@@ -5,11 +5,13 @@
       <map>
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/drawable/add_image.xml" value="0.215625" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/activity_home.xml" value="0.22" />
+        <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/activity_splash.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/bottom_sheet_cadastro_jogador.xml" value="0.12" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/bottom_sheet_cadastro_partida.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/fragment_agenda.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/fragment_cadastrar_time.xml" value="0.22" />
+        <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/fragment_forgot_password.xml" value="0.25" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/fragment_home.xml" value="0.19947916666666668" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/fragment_matches.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/fragment_register.xml" value="0.19791666666666666" />

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.minhaquadra.loginFragment"
+        android:name="com.example.minhaquadra.presentation.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -19,12 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasswordFragment"
-        android:name="com.example.minhaquadra.ForgotPasswordFragment"
+        android:name="com.example.minhaquadra.presentation.login.ForgotPasswordFragment"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.example.minhaquadra.RegisterFragment"
+        android:name="com.example.minhaquadra.presentation.login.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
 </navigation>

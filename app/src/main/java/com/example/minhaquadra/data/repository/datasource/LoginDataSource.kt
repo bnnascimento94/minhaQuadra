@@ -1,12 +1,13 @@
 package com.example.minhaquadra.data.repository.datasource
 
-import com.example.minhaquadra.data.model.Login
+import com.example.minhaquadra.data.model.User
+import com.example.minhaquadra.data.util.Resource
 
 interface LoginDataSource {
 
-    suspend fun buscarLogin(username:String, password:String): Login?
+    suspend fun buscarLogin(username:String, password:String): Resource<User>?
 
-    suspend fun forgotPassword(username:String, password:String): Login?
+    suspend fun forgotPassword(username:String): Resource<Boolean>?
 
-    suspend fun registerUser(login: Login): Login?
+    suspend fun registerUser(username: String?, password: String?): Resource<User>?
 }

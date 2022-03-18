@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1012897139991",
+    "project_id": "minhaquadra-ebb83",
+    "storage_bucket": "minhaquadra-ebb83.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012897139991:android:ca77269956b90783cbfb52",
+        "android_client_info": {
+          "package_name": "com.example.minhaquadra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012897139991-4gllv2imjk1lm8uh2i34p3phkkbnnh3f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.minhaquadra",
+            "certificate_hash": "989335278265bce922b61d4aa71a1f4ea1a2badf"
+          }
+        },
+        {
+          "client_id": "1012897139991-d222st2r24eb48j0r2n8qde7n1hr4hli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcavubUNvDFthF3K4-rzuH8kN0C9iUG5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012897139991-d222st2r24eb48j0r2n8qde7n1hr4hli.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

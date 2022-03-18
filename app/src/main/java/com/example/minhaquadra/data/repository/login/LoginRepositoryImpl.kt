@@ -1,20 +1,22 @@
 package com.example.minhaquadra.data.repository.login
 
-import com.example.minhaquadra.data.model.Login
+import com.example.minhaquadra.data.model.User
 import com.example.minhaquadra.data.repository.datasource.LoginDataSource
+import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.domain.repository.LoginRepository
 
 class LoginRepositoryImpl(private val loginDataSource: LoginDataSource): LoginRepository {
 
-    override suspend fun getLogin(username: String, password: String): Login? {
+    override suspend fun getLogin(username: String, password: String): Resource<User>? {
         return loginDataSource.buscarLogin(username,password)
     }
 
-    override suspend fun registerUser(login: Login): Login? {
-        return loginDataSource.registerUser(login)
+    override suspend fun registerUser(username:String,password:String): Resource<User>? {
+        return loginDataSource.registerUser(username, password)
     }
 
-    override suspend fun forgotPassword(email: String, password: String): Login? {
-        return loginDataSource.forgotPassword(email,password)
+
+    override suspend fun forgotPassword(email: String): Resource<Boolean>? {
+        return loginDataSource.forgotPassword(email)
     }
 }
