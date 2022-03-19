@@ -28,6 +28,15 @@ class LoginViewModel(
     //enableForgotPasswordButton
     val enableForgotPasswordButton: MutableLiveData<Boolean> = MutableLiveData()
 
+    //enable button forgotpassword
+    val enableLoginButtonForgotPassword: MutableLiveData<Boolean> = MutableLiveData()
+
+    //enable button forgotpassword
+    val enableLoginButtonLogin: MutableLiveData<Boolean> = MutableLiveData()
+
+    //login
+    val loginField: String
+
 
     fun registerUser(username:String, password: String)=  viewModelScope.launch {
         registerUserData.postValue(registerUsercase.execute(username, password))
@@ -49,6 +58,25 @@ class LoginViewModel(
             enableForgotPasswordButton.value = false
         }
     }
+
+    fun enableLoginForgotPasswordButton(email: String){
+        if(email.contains("@")){
+            loginField = email
+            enableLoginButtonForgotPassword.value = true
+        }else{
+            enableLoginButtonForgotPassword.value = false
+        }
+    }
+
+    fun enableLoginButton(password: String){
+        if(loginField != null && loginField.contains("@") && password.length > 0){
+            enableLoginButtonLogin.value = true
+        }else{
+            enableLoginButtonLogin.value = false
+        }
+    }
+
+
 
 
 
