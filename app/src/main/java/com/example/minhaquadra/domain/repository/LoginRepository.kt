@@ -5,6 +5,8 @@ import com.example.minhaquadra.data.util.Resource
 
 interface LoginRepository {
 
+    suspend fun getUserConnected(): Resource<User>?
+
     suspend fun getLogin(username:String,password:String): Resource<User>?
 
     suspend fun registerUser(username:String,password:String): Resource<User>?

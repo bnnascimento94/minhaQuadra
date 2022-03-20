@@ -10,6 +10,7 @@
         android:orientation="vertical"
         tools:context=".presentation.login.LoginActivity">
 
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -112,7 +113,7 @@
                                 app:passwordToggleEnabled="true">
 
                                 <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/txtSenha"
+                                    android:id="@+id/txtPassword"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Senha"
@@ -198,6 +199,16 @@
 
         </LinearLayout>
 
+
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 

@@ -5,6 +5,8 @@ import com.example.minhaquadra.data.util.Resource
 
 interface LoginDataSource {
 
+    suspend fun verifyCurrentUser(): Resource<User>?
+
     suspend fun buscarLogin(username:String, password:String): Resource<User>?
 
     suspend fun forgotPassword(username:String): Resource<Boolean>?
