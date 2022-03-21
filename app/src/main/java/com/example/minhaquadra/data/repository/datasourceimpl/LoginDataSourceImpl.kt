@@ -8,6 +8,25 @@ import kotlinx.coroutines.tasks.await
 
 class LoginDataSourceImpl(private val firebaseAuth: FirebaseAuth) : LoginDataSource {
 
+
+    override suspend fun verifyCurrentUser(): Resource<User>? {
+        return try {
+            val currentUser = firebaseAuth.currentUser
+            if(currentUser != null){
+                Resource.Success(User(currentUser.uid,
+                    currentUser.displayName,
+                    currentUser.email,
+                    currentUser.photoUrl.toString(),
+                    currentUser.isEmailVerified))
+            }else{
+                Resource.Error("")
+            }
+        }catch(e: Exception){
+            Resource.Error(e.message)
+        }
+
+    }
+
     override suspend fun buscarLogin(username: String, password: String): Resource<User> {
         return try{
             val data = firebaseAuth.signInWithEmailAndPassword(username,password).await()

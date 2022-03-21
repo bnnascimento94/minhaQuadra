@@ -98,6 +98,7 @@
                                 android:layout_height="wrap_content">
 
                                 <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtEmail"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="E-mail"
@@ -112,6 +113,7 @@
                                 app:passwordToggleEnabled="true">
 
                                 <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtPassword"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Senha"
@@ -127,6 +129,7 @@
                                 app:passwordToggleEnabled="true">
 
                                 <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/txtConfirmPassword"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Confirme sua Senha"
@@ -157,6 +160,7 @@
 
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRealizarRegistro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
@@ -168,6 +172,16 @@
 
 
                 </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

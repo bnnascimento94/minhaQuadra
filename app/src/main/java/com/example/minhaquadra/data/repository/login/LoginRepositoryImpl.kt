@@ -6,6 +6,9 @@ import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.domain.repository.LoginRepository
 
 class LoginRepositoryImpl(private val loginDataSource: LoginDataSource): LoginRepository {
+    override suspend fun getUserConnected(): Resource<User>? {
+        return loginDataSource.verifyCurrentUser()
+    }
 
     override suspend fun getLogin(username: String, password: String): Resource<User>? {
         return loginDataSource.buscarLogin(username,password)

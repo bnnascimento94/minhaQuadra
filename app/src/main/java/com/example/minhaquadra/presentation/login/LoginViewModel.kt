@@ -16,8 +16,6 @@ class LoginViewModel(
     private val registerUsercase: RegisterUsercase
 ): ViewModel() {
 
-    //register
-    val registerUserData: MutableLiveData<Resource<User>> = MutableLiveData()
 
     //login
     val loginUserData: MutableLiveData<Resource<User>> = MutableLiveData()
@@ -28,10 +26,28 @@ class LoginViewModel(
     //enableForgotPasswordButton
     val enableForgotPasswordButton: MutableLiveData<Boolean> = MutableLiveData()
 
+    //enable button forgotpassword
+    val enableLoginButtonForgotPassword: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun registerUser(username:String, password: String)=  viewModelScope.launch {
-        registerUserData.postValue(registerUsercase.execute(username, password))
-    }
+    //enable button forgotpassword
+    val enableLoginButtonLogin: MutableLiveData<Boolean> = MutableLiveData()
+
+    //login
+    var loginField: String? = null
+
+
+    //login
+    var emailRegister: String? = null
+
+    //login
+    var passwordRegister: String? = null
+
+
+    //btnRegister
+    val enableBtnRegister: MutableLiveData<Boolean> = MutableLiveData()
+
+    val userRegistered: MutableLiveData<Resource<User>> = MutableLiveData()
+
 
     fun loginUserData(username:String, password: String) = viewModelScope.launch {
         loginUserData.postValue(getLoginUsercase.execute(username,password))
@@ -43,11 +59,35 @@ class LoginViewModel(
     }
 
     fun enableForgotPasswordButton(email: String){
+        enableForgotPasswordButton.value = email.contains("@")
+    }
+
+    fun enableLoginForgotPasswordButton(email: String){
         if(email.contains("@")){
-            enableForgotPasswordButton.value = true
+            loginField = email
+            enableLoginButtonForgotPassword.value = true
         }else{
-            enableForgotPasswordButton.value = false
+            enableLoginButtonForgotPassword.value = false
         }
+    }
+
+    fun enableLoginButton(password: String){
+        enableLoginButtonLogin.value = loginField != null &&
+                loginField!!.contains("@") &&
+                password.isNotEmpty()
+    }
+
+
+    fun enableRegisterButton(passwordConfirmed: String){
+        enableLoginButtonLogin.value = emailRegister != null &&
+                passwordRegister != null &&
+                emailRegister!!.contains("@") &&
+                passwordRegister!!.isNotEmpty() &&
+                passwordRegister.equals(passwordConfirmed)
+    }
+
+    fun registerUser() = viewModelScope.launch {
+        userRegistered.postValue(registerUsercase.execute(emailRegister!!,passwordRegister!!))
     }
 
 
