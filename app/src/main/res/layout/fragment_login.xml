@@ -144,15 +144,19 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnEsqueciASenha"
+                        android:enabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="2dp"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
                         android:text="Esqueci a Senha" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnEntrar"
+                        android:enabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
@@ -192,6 +196,7 @@
                 android:layout_marginRight="40dp"
                 android:layout_marginLeft="40dp"
                 android:background="@android:color/transparent"
+                android:textColor="@color/black"
                 android:text="@string/login_btn_cadastro"/>
 
 

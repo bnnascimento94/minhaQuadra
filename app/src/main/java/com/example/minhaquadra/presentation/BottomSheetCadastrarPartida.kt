@@ -10,12 +10,18 @@ import com.example.minhaquadra.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 
-class BottomSheetCadastrarPartida : BottomSheetDialogFragment() {
-
+class BottomSheetCadastrarPartida(callback: BottomSheetCadastrarPartida.Callback) : BottomSheetDialogFragment() {
     private var callback: Callback? = null
+
+    init {
+        this.callback = callback
+    }
+
+
 
     interface Callback {
         fun onSalvar()
+        fun onDeletar()
     }
 
     override fun onCreateView(
@@ -31,20 +37,31 @@ class BottomSheetCadastrarPartida : BottomSheetDialogFragment() {
         btnSalvar.setOnClickListener { view ->
             callback?.onSalvar()
         }
+
+        btnDeletar.setOnClickListener { view->
+            callback?.onDeletar()
+        }
         return view
     }
 
+
+    /**
+
     override fun onAttach(context: Context) {
-        super.onAttach(context)
-        val activity = context as Activity
-        callback = try {
-            activity as Callback
-        } catch (e: ClassCastException) {
-            throw ClassCastException(
-                context.toString() +
-                        "must implement ExampleDialogListener"
-            )
-        }
+    super.onAttach(context)
+    val activity = context as Activity
+    callback = try {
+    activity as Callback
+    } catch (e: ClassCastException) {
+    throw ClassCastException(
+    context.toString() +
+    "must implement ExampleDialogListener"
+    )
     }
+    }
+
+     * **/
+
+
 
 }

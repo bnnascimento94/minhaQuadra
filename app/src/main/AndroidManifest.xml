@@ -14,12 +14,15 @@
         android:theme="@style/Theme.MinhaQuadra">
         <activity
             android:name=".presentation.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".presentation.splash.SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".presentation.login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

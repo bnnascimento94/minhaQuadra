@@ -79,7 +79,7 @@ class LoginViewModel(
 
 
     fun enableRegisterButton(passwordConfirmed: String){
-        enableLoginButtonLogin.value = emailRegister != null &&
+        enableBtnRegister.value = emailRegister != null &&
                 passwordRegister != null &&
                 emailRegister!!.contains("@") &&
                 passwordRegister!!.isNotEmpty() &&
