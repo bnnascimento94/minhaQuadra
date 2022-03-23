@@ -2,9 +2,9 @@ package com.example.minhaquadra.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.minhaquadra.domain.usercases.ForgotPasswordUsercase
-import com.example.minhaquadra.domain.usercases.GetLoginUsercase
-import com.example.minhaquadra.domain.usercases.RegisterUsercase
+import com.example.minhaquadra.domain.usercases.login.ForgotPasswordUsercase
+import com.example.minhaquadra.domain.usercases.login.GetLoginUsercase
+import com.example.minhaquadra.domain.usercases.login.RegisterUsercase
 
 class LoginViewModelFactory(
     private val getLoginUsercase: GetLoginUsercase,

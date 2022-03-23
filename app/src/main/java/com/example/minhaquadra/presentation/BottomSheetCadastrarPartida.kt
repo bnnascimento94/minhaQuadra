@@ -18,7 +18,6 @@ class BottomSheetCadastrarPartida(callback: BottomSheetCadastrarPartida.Callback
     }
 
 
-
     interface Callback {
         fun onSalvar()
         fun onDeletar()
@@ -43,25 +42,6 @@ class BottomSheetCadastrarPartida(callback: BottomSheetCadastrarPartida.Callback
         }
         return view
     }
-
-
-    /**
-
-    override fun onAttach(context: Context) {
-    super.onAttach(context)
-    val activity = context as Activity
-    callback = try {
-    activity as Callback
-    } catch (e: ClassCastException) {
-    throw ClassCastException(
-    context.toString() +
-    "must implement ExampleDialogListener"
-    )
-    }
-    }
-
-     * **/
-
 
 
 }

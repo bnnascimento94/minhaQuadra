@@ -1,4 +1,4 @@
-package com.example.minhaquadra.domain.usercases
+package com.example.minhaquadra.domain.usercases.login
 
 import com.example.minhaquadra.data.model.User
 import com.example.minhaquadra.data.util.Resource

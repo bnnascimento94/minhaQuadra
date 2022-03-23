@@ -4,15 +4,27 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minhaquadra.databinding.HomeListItemBinding
 
-class HomeAdapter(menu: List<String>?): RecyclerView.Adapter<HomeAdapter.MenuViewHolder>() {
+class HomeAdapter(): RecyclerView.Adapter<HomeAdapter.MenuViewHolder>() {
 
-    var menu: List<String>
+    lateinit var menu: List<String>
     var onItemClick: ((String) -> Unit)? = null
 
-    init {
+
+    fun load(menu: List<String>?){
         this.menu = menu!!
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
+        TODO("Not yet implemented")
+    }
+
+    override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getItemCount(): Int {
+        TODO("Not yet implemented")
+    }
 
 
     inner class MenuViewHolder(homeListItemBinding: HomeListItemBinding) :
@@ -27,16 +39,6 @@ class HomeAdapter(menu: List<String>?): RecyclerView.Adapter<HomeAdapter.MenuVie
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
-        TODO("Not yet implemented")
-    }
 
-    override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
 
 }

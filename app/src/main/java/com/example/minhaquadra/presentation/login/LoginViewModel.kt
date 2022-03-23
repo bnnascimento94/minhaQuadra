@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.minhaquadra.data.model.User
 import com.example.minhaquadra.data.util.Resource
-import com.example.minhaquadra.domain.usercases.ForgotPasswordUsercase
-import com.example.minhaquadra.domain.usercases.GetLoginUsercase
-import com.example.minhaquadra.domain.usercases.RegisterUsercase
+import com.example.minhaquadra.domain.usercases.login.ForgotPasswordUsercase
+import com.example.minhaquadra.domain.usercases.login.GetLoginUsercase
+import com.example.minhaquadra.domain.usercases.login.RegisterUsercase
 import kotlinx.coroutines.launch
 
 class LoginViewModel(

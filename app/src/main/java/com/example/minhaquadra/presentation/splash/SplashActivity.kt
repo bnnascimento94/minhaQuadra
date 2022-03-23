@@ -37,6 +37,8 @@ class SplashActivity : AppCompatActivity() {
 
         splashViewModel = ViewModelProvider(this,factory).get(SplashViewModel::class.java)
 
+        splashViewModel.verifyConnectedUser()
+
         splashViewModel.splashTimer.observe(this, Observer { timerFinalizado->
             if(timerFinalizado){
                 splashViewModel.connectedUser.observe(this, Observer {response ->
