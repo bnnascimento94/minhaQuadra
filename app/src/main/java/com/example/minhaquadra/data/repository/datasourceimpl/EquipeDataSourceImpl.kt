@@ -119,10 +119,45 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
     }
 
     override suspend fun getEquipe(uidUsuario: String): Resource<Equipe>? {
-        TODO("Not yet implemented")
+        return try {
+            var equipe: Equipe? = null
+            val result = database.collection("minhaQuadra")
+                .whereEqualTo("responsavelEquipe",uidUsuario)
+                .get().await()
+            if(!result.isEmpty){
+                for (document in result.documents){
+                    equipe = document.toObject(Equipe::class.java)!!
+                    val storageRef = firebaseStorage.getReference()
+                    val ref = storageRef.child(equipe.pathFoto!!)
+                    equipe.donwloadUrl = ref.downloadUrl.await().toString()
+                    break
+                }
+                Resource.Success(equipe!!)
+            }else{
+                Resource.Error("No data")
+            }
+        }catch(e: Exception){
+            Resource.Error(e.message)
+        }
     }
 
     override suspend fun getEquipes(): Resource<List<Equipe>>? {
-        TODO("Not yet implemented")
+        return try {
+            var equipes = mutableListOf<Equipe>()
+            val result = database.collection("minhaQuadra")
+                .whereNotEqualTo("uidEquipe",null).get().await()
+            if(!result.isEmpty){
+                for (document in result.documents){
+                    equipes.add(document.toObject(Equipe::class.java)!!)
+                }
+                Resource.Success(equipes)
+
+            }else{
+                Resource.Error("No data")
+            }
+
+        }catch(e: Exception){
+            Resource.Error(e.message)
+        }
     }
 }

@@ -1,4 +1,40 @@
 package com.example.minhaquadra.data.repository.partida
 
-class PartidaRepositoryImpl {
+import com.example.minhaquadra.data.model.Partida
+import com.example.minhaquadra.data.repository.datasource.PartidaDataSource
+import com.example.minhaquadra.data.util.Resource
+import com.example.minhaquadra.domain.repository.PartidaRepository
+import java.util.*
+
+class PartidaRepositoryImpl(private val partidaDataSource: PartidaDataSource): PartidaRepository {
+    override suspend fun registerPartida(
+        reservaQuadra: Boolean?,
+        confronto: Boolean?,
+        uidMandante: String?,
+        uidAdversario: String?,
+        dataPartida: Date?,
+        duracaoPartida: String
+    ): Resource<Boolean>? {
+        return partidaDataSource.registerPartida(reservaQuadra, confronto, uidMandante, uidAdversario, dataPartida, duracaoPartida)
+    }
+
+    override suspend fun updatePartida(partida: Partida): Resource<Partida>? {
+        return partidaDataSource.updatePartida(partida)
+    }
+
+    override suspend fun deletePartida(uidPartida: String): Resource<Boolean>? {
+        return partidaDataSource.deletePartida(uidPartida)
+    }
+
+    override suspend fun getPartida(uidPartida: String): Resource<Partida>? {
+        return partidaDataSource.getPartida(uidPartida)
+    }
+
+    override suspend fun getPartidas(): Resource<List<Partida>>? {
+        return partidaDataSource.getPartidas()
+    }
+
+    override suspend fun getPartidasPorData(data: Date): Resource<List<Partida>>? {
+        return partidaDataSource.getPartidasPorData(data)
+    }
 }

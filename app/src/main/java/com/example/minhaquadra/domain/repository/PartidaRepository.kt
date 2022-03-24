@@ -2,19 +2,20 @@ package com.example.minhaquadra.domain.repository
 
 import com.example.minhaquadra.data.model.Partida
 import com.example.minhaquadra.data.util.Resource
+import java.util.*
 
 interface PartidaRepository {
 
-    fun registerPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: String?, duracaoPartida: String ): Resource<Boolean>?
+    suspend fun registerPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: Date?, duracaoPartida: String ): Resource<Boolean>?
 
-    fun updatePartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: String?, duracaoPartida: String): Resource<Partida>?
+    suspend fun updatePartida(partida: Partida): Resource<Partida>?
 
-    fun deletePartida(uidPartida:String): Resource<Boolean>?
+    suspend fun deletePartida(uidPartida:String): Resource<Boolean>?
 
-    fun getPartida(uidPartida:String): Resource<Partida>?
+    suspend fun getPartida(uidPartida:String): Resource<Partida>?
 
-    fun getPartidas(): Resource<List<Partida>>?
+    suspend fun getPartidas(): Resource<List<Partida>>?
 
-    fun getPartidasPorData(data:String): Resource<List<Partida>>?
+    suspend fun getPartidasPorData(data: Date): Resource<List<Partida>>?
 
 }

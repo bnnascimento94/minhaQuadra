@@ -11,9 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.minhaquadra.R
 import com.example.minhaquadra.data.util.Resource
-import com.example.minhaquadra.databinding.FragmentLoginBinding
 import com.example.minhaquadra.databinding.FragmentRegisterBinding
-import com.example.minhaquadra.presentation.HomeActivity
+import com.example.minhaquadra.presentation.home.HomeActivity
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -52,7 +51,6 @@ class RegisterFragment : Fragment() {
                 is Resource.Error ->{
                     binding.progress.visibility = View.GONE
                     Snackbar.make(requireView(), response.message.toString(), Snackbar.LENGTH_LONG).show()
-
                 }
                 is Resource.Success ->{
                     binding.progress.visibility = View.GONE

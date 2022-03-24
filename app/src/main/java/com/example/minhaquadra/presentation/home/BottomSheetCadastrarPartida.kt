@@ -1,7 +1,5 @@
-package com.example.minhaquadra.presentation
+package com.example.minhaquadra.presentation.home
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +8,7 @@ import com.example.minhaquadra.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 
-class BottomSheetCadastrarPartida(callback: BottomSheetCadastrarPartida.Callback) : BottomSheetDialogFragment() {
+class BottomSheetCadastrarPartida(callback: Callback) : BottomSheetDialogFragment() {
     private var callback: Callback? = null
 
     init {

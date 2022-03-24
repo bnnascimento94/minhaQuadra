@@ -1,4 +1,4 @@
-package com.example.minhaquadra.presentation
+package com.example.minhaquadra.presentation.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

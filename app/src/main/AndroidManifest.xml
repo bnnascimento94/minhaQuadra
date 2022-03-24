@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MinhaQuadra">
         <activity
-            android:name=".presentation.HomeActivity"
+            android:name=".presentation.home.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="false" />
         <activity

@@ -1,20 +1,19 @@
 package com.example.minhaquadra.domain.repository
 
-import com.example.minhaquadra.data.model.Equipe
 import com.example.minhaquadra.data.model.Jogador
 import com.example.minhaquadra.data.util.Resource
 
 interface JogadorRepository {
 
-    fun registerJogador(nome: Equipe, cpf: kotlin.String): Resource<Boolean>?
+    suspend fun registerJogador(nome: String, cpf: String, uidEquipe: String): Resource<Boolean>?
 
-    fun updateJogador(nome: Equipe, cpf: kotlin.String): Resource<Jogador>?
+    suspend fun updateJogador(jogador: Jogador): Resource<Jogador>?
 
-    fun deleteJogador(uidJogador: kotlin.String): Resource<Boolean>?
+    suspend fun deleteJogador(uidJogador: String): Resource<Boolean>?
 
-    fun getJogador(uidJogador: kotlin.String): Resource<Jogador>?
+    suspend fun getJogador(uidJogador: String): Resource<Jogador>?
 
-    fun getJogadores(uidEquipe: kotlin.String): Resource<List<Jogador>>?
+    suspend fun getJogadores(uidEquipe: String): Resource<List<Jogador>>?
 
 
 }

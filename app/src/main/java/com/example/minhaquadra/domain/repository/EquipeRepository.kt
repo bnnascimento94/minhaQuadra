@@ -6,14 +6,14 @@ import com.example.minhaquadra.data.util.Resource
 
 interface EquipeRepository {
 
-    fun registerEquipe(foto:Bitmap, nomeEquipe: Equipe, situacaoTime: kotlin.String):Resource<Boolean>?
+    suspend fun registerEquipe(foto: Bitmap, nomeEquipe: String,responsavelEquipe:String, situacaoTime: Boolean):Resource<Boolean>?
 
-    fun updateEquipe(foto:Bitmap, nomeEquipe: Equipe, situacaoTime: kotlin.String): Resource<Equipe>?
+    suspend fun updateEquipe(equipe: Equipe, bitmap: Bitmap?): Resource<Equipe>?
 
-    fun deleteEquipe(uid: kotlin.String): Resource<Boolean>?
+    suspend fun deleteEquipe(uid: String): Resource<Boolean>?
 
-    fun getEquipe(uidUsuario: kotlin.String): Resource<Equipe>?
+    suspend fun getEquipe(uidUsuario: String): Resource<Equipe>?
 
-    fun getEquipes(): Resource<List<Equipe>>?
+    suspend fun getEquipes(): Resource<List<Equipe>>?
 
 }

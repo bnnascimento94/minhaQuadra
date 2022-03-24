@@ -7,7 +7,8 @@ data class Equipe(
     val pathFoto: String?,
     val nomeEquipe: String?,
     val responsavelEquipe: String?,
-    val situacaoTime: Boolean?
+    val situacaoTime: Boolean?,
+    var donwloadUrl: String? = null,
 ){
     fun equipeToHash(): Map<String, Any?>{
         val equipe = mutableMapOf<String, Any?>()

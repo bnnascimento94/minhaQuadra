@@ -43,7 +43,6 @@ class JogadorDataSourceImpl(private val database: FirebaseFirestore): JogadorDat
         }
     }
 
-
     override suspend fun deleteJogador(uidJogador: String): Resource<Boolean>? {
         return try {
             val result = database.collection("minhaQuadra").whereEqualTo("uidJogador",uidJogador).get().await()

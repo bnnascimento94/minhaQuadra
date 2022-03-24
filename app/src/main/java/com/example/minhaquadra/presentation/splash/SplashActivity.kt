@@ -3,22 +3,15 @@ package com.example.minhaquadra.presentation.splash
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.view.View
-import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.minhaquadra.R
 import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.databinding.ActivitySplashBinding
-import com.example.minhaquadra.presentation.HomeActivity
+import com.example.minhaquadra.presentation.home.HomeActivity
 import com.example.minhaquadra.presentation.login.LoginActivity
-import com.example.minhaquadra.presentation.login.LoginViewModel
-import com.example.minhaquadra.presentation.login.LoginViewModelFactory
 import com.google.android.material.snackbar.Snackbar
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SplashActivity : AppCompatActivity() {

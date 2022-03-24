@@ -1,4 +1,4 @@
-package com.example.minhaquadra.presentation
+package com.example.minhaquadra.presentation.home
 
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +11,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.minhaquadra.R
 import com.example.minhaquadra.databinding.FragmentHomeBinding
-import com.example.minhaquadra.databinding.FragmentLoginBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-
-
-
 
 
 class HomeFragment : Fragment(){
@@ -40,7 +35,8 @@ class HomeFragment : Fragment(){
 
         binding.btnAdicional.setOnClickListener {
             try {
-                val bottomSheetCadastrarPartida = BottomSheetCadastrarPartida(object:BottomSheetCadastrarPartida.Callback{
+                val bottomSheetCadastrarPartida = BottomSheetCadastrarPartida(object:
+                    BottomSheetCadastrarPartida.Callback{
                     override fun onSalvar() {
                         Toast.makeText(activity,"salvo", Toast.LENGTH_LONG).show()
                     }

@@ -1,4 +1,4 @@
-package com.example.minhaquadra.presentation
+package com.example.minhaquadra.presentation.home
 
 import android.app.Activity
 import android.content.Context

@@ -14,7 +14,7 @@ import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.databinding.FragmentLoginBinding
 import com.google.android.material.snackbar.Snackbar
 import android.content.Intent
-import com.example.minhaquadra.presentation.HomeActivity
+import com.example.minhaquadra.presentation.home.HomeActivity
 
 
 class LoginFragment : Fragment() {

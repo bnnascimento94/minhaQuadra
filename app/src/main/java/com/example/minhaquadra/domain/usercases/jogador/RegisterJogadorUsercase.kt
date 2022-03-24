@@ -5,5 +5,5 @@ import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.domain.repository.JogadorRepository
 
 class RegisterJogadorUsercase(private val repository: JogadorRepository) {
-    suspend fun execute(nome: Equipe, cpf: kotlin.String): Resource<Boolean>? = repository.registerJogador(nome, cpf)
+    suspend fun execute(nome: String, cpf: String, uidEquipe: String): Resource<Boolean>? = repository.registerJogador(nome, cpf, uidEquipe)
 }
