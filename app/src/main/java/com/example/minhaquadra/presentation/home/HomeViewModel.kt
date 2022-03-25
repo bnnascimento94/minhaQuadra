@@ -8,10 +8,7 @@ import com.example.minhaquadra.data.model.Equipe
 import com.example.minhaquadra.data.model.Jogador
 import com.example.minhaquadra.data.model.Partida
 import com.example.minhaquadra.data.util.Resource
-import com.example.minhaquadra.domain.usercases.equipe.DeleteEquipeUsercase
-import com.example.minhaquadra.domain.usercases.equipe.ListEquipesUsercase
-import com.example.minhaquadra.domain.usercases.equipe.RegisterEquipeUsercase
-import com.example.minhaquadra.domain.usercases.equipe.UpdateEquipeUsercase
+import com.example.minhaquadra.domain.usercases.equipe.*
 import com.example.minhaquadra.domain.usercases.jogador.DeleteJogadorUsercase
 import com.example.minhaquadra.domain.usercases.jogador.ListJogadorUsercase
 import com.example.minhaquadra.domain.usercases.jogador.RegisterJogadorUsercase
@@ -23,6 +20,7 @@ import java.util.*
 class HomeViewModel(
     private val deleteEquipeUsercase: DeleteEquipeUsercase,
     private val listEquipesUsercase: ListEquipesUsercase,
+    private val getEquipeUsercase: GetEquipeUsercase,
     private val registerEquipeUsercase: RegisterEquipeUsercase,
     private val updateEquipeUsercase: UpdateEquipeUsercase,
     private val deleteJogadorUsercase: DeleteJogadorUsercase,
@@ -31,11 +29,13 @@ class HomeViewModel(
     private val updateJogadorUsercase: UpdateJogadorUsercase,
     private val deletePartidaUsercase: DeletePartidaUsercase,
     private val listPartidaUsercase: ListPartidaUsercase,
+    private val listaPartidaByEquipeUsercase: ListaPartidaByEquipeUsercase,
     private val listaPartidaByDataUsercase: ListaPartidaByDataUsercase,
     private val registerPartidaUsercase: RegisterPartidaUsercase,
     private val updatePartidaUserCase: UpdatePartidaUserCase
 ): ViewModel() {
 
+    val equipeBuscada: MutableLiveData<Resource<Equipe>> = MutableLiveData()
     val equipeDeletada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val equipeListada: MutableLiveData<Resource<List<Equipe>>> = MutableLiveData()
     val equipeRegistrada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
@@ -49,6 +49,7 @@ class HomeViewModel(
     val partidaDeletada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val partidaListada: MutableLiveData<Resource<List<Partida>>> = MutableLiveData()
     val partidaDataListada: MutableLiveData<Resource<List<Partida>>> = MutableLiveData()
+    val partidaEquipeListada: MutableLiveData<Resource<List<Partida>>> = MutableLiveData()
     val partidaRegistrada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val partidaAtualizada: MutableLiveData<Resource<Partida>> = MutableLiveData()
 
@@ -58,6 +59,10 @@ class HomeViewModel(
 
     fun listarEquipes() = viewModelScope.launch {
         equipeListada.postValue(listEquipesUsercase.execute())
+    }
+
+    fun getEquipe(uidUsuario:String) = viewModelScope.launch {
+        equipeBuscada.postValue(getEquipeUsercase.execute(uidUsuario))
     }
 
     fun registrarEquipe(foto: Bitmap, nomeEquipe: String,responsavelEquipe:String, situacaoTime: Boolean) = viewModelScope.launch {
@@ -99,7 +104,6 @@ class HomeViewModel(
         jogadorAtualizado.postValue(updateJogadorUsercase.execute(jogador))
     }
 
-
     fun deletarPartida(uidPartida:String) = viewModelScope.launch {
         partidaDeletada.postValue(deletePartidaUsercase.execute(uidPartida))
     }
@@ -110,6 +114,10 @@ class HomeViewModel(
 
     fun listarPartidaPorData(date: Date) = viewModelScope.launch {
         partidaDataListada.postValue(listaPartidaByDataUsercase.execute(date))
+    }
+
+    fun listarPartidaPorEquipe(uidEquipe: String) = viewModelScope.launch {
+        partidaEquipeListada.postValue(listaPartidaByEquipeUsercase.execute(uidEquipe))
     }
 
     fun registrarPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: Date?, duracaoPartida: String) = viewModelScope.launch {

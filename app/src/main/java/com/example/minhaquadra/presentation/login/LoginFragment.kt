@@ -14,12 +14,20 @@ import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.databinding.FragmentLoginBinding
 import com.google.android.material.snackbar.Snackbar
 import android.content.Intent
+import com.example.minhaquadra.data.util.Preferencias
 import com.example.minhaquadra.presentation.home.HomeActivity
+import com.example.minhaquadra.presentation.home.HomeAdapter
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     lateinit var viewModel: LoginViewModel
     lateinit var binding: FragmentLoginBinding
+
+    @Inject
+    lateinit var preferencias: Preferencias
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +74,7 @@ class LoginFragment : Fragment() {
                 }
                 is Resource.Success ->{
                     binding.progress.visibility = View.GONE
+                    preferencias.salvarDados(response.data!!)
                     startActivity(Intent(activity, HomeActivity::class.java))
                 }
             }

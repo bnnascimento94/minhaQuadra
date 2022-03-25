@@ -18,4 +18,6 @@ interface PartidaRepository {
 
     suspend fun getPartidasPorData(data: Date): Resource<List<Partida>>?
 
+    suspend fun getPartidasPorEquipe(uidEquipe: String): Resource<List<Partida>>?
+
 }
