@@ -11,6 +11,7 @@ class Preferencias(contexto: Context) {
     private val editor: SharedPreferences.Editor
     private val USUARIO_UID = "ID"
 
+
     fun salvarDados(user: User) {
         editor.putString(USUARIO_UID, user.uid)
         editor.commit()

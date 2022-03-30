@@ -1,21 +1,29 @@
 package com.example.minhaquadra.presentation.home
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.minhaquadra.R
+import com.example.minhaquadra.data.model.Equipe
+import com.example.minhaquadra.data.model.Jogador
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.textfield.TextInputEditText
 
-class BottomSheetCadastroJogador : BottomSheetDialogFragment() {
+class BottomSheetCadastroJogador(callback: Callback) : BottomSheetDialogFragment() {
 
     private var callback: Callback? = null
 
+    init {
+        this.callback = callback
+    }
+
     interface Callback {
-        fun onRenovarContrato()
+        fun onSalvar(nome: String, cpf: String, uidEquipe: String)
+        fun onAtualizar(jogador: Jogador)
+        fun onDelete(uidJogador:String)
     }
 
     override fun onCreateView(
@@ -25,25 +33,49 @@ class BottomSheetCadastroJogador : BottomSheetDialogFragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view: View = inflater.inflate(R.layout.bottom_sheet_cadastro_jogador, container, false)
-        val btnSalvarPlanograma: MaterialButton = view.findViewById(R.id.btnSalvar)
+        val btnSalvar: MaterialButton = view.findViewById(R.id.btnSalvar)
+        val btnDeletar: MaterialButton = view.findViewById(R.id.btnDelete)
 
-        btnSalvarPlanograma.setOnClickListener { view ->
-            callback?.onRenovarContrato()
+        val txtNomeJogador: TextInputEditText = view.findViewById(R.id.txtNomeJogador)
+        val txtCpf: TextInputEditText = view.findViewById(R.id.cpf)
+
+        val bundle = arguments
+        var uidEquipe: String? = null
+        var jogador : Jogador? = null
+
+        if(bundle!!.containsKey("equipe")){
+            uidEquipe = bundle!!.getString("uidEquipe")
+        }
+
+        if(bundle!!.containsKey("jogador")){
+            jogador = bundle!!.getSerializable("jogador") as Jogador?
+        }
+
+        btnSalvar.setOnClickListener { view ->
+            val nomeJogador: String = txtNomeJogador.text.toString()
+            val cpf:String = txtCpf.text.toString()
+
+            if(!nomeJogador.isNullOrEmpty() && !cpf.isNullOrEmpty()){
+                if (jogador != null){
+                    jogador?.nome = nomeJogador
+                    jogador.cpf = cpf
+                    callback?.onAtualizar(jogador)
+                }else{
+                    callback?.onSalvar(nomeJogador,cpf,uidEquipe!!)
+                }
+            }
+        }
+
+        btnDeletar.setOnClickListener {
+            if (jogador != null){
+                callback?.onDelete(jogador.uidJogador!!)
+            }else{
+                Toast.makeText(requireContext(),"Não é possível deletar jogador não cadastrado", Toast.LENGTH_LONG).show()
+            }
         }
         return view
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        val activity = context as Activity
-        callback = try {
-            activity as Callback
-        } catch (e: ClassCastException) {
-            throw ClassCastException(
-                context.toString() +
-                        "must implement ExampleDialogListener"
-            )
-        }
-    }
+
 
 }

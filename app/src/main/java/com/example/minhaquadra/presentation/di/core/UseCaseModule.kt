@@ -50,7 +50,7 @@ class UseCaseModule {
 
     @Singleton
     @Provides
-    fun providesRegisterUsercase(equipeRepository: EquipeRepository): GetEquipeUsercase {
+    fun providesGetEquipeUsercase(equipeRepository: EquipeRepository): GetEquipeUsercase {
         return GetEquipeUsercase(equipeRepository)
     }
 

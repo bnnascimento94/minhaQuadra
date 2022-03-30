@@ -1,9 +1,6 @@
 package com.example.minhaquadra.presentation.di.core
 
-import com.example.minhaquadra.domain.usercases.equipe.DeleteEquipeUsercase
-import com.example.minhaquadra.domain.usercases.equipe.ListEquipesUsercase
-import com.example.minhaquadra.domain.usercases.equipe.RegisterEquipeUsercase
-import com.example.minhaquadra.domain.usercases.equipe.UpdateEquipeUsercase
+import com.example.minhaquadra.domain.usercases.equipe.*
 import com.example.minhaquadra.domain.usercases.jogador.DeleteJogadorUsercase
 import com.example.minhaquadra.domain.usercases.jogador.ListJogadorUsercase
 import com.example.minhaquadra.domain.usercases.jogador.RegisterJogadorUsercase
@@ -51,6 +48,7 @@ class FactoryModule {
     fun homeViewModelFactory(
         deleteEquipeUsercase: DeleteEquipeUsercase,
         listEquipesUsercase: ListEquipesUsercase,
+        getEquipeUsercase: GetEquipeUsercase,
         registerEquipeUsercase: RegisterEquipeUsercase,
         updateEquipeUsercase: UpdateEquipeUsercase,
         deleteJogadorUsercase: DeleteJogadorUsercase,
@@ -59,6 +57,7 @@ class FactoryModule {
         updateJogadorUsercase: UpdateJogadorUsercase,
         deletePartidaUsercase: DeletePartidaUsercase,
         listPartidaUsercase: ListPartidaUsercase,
+        listaPartidaByEquipeUsercase: ListaPartidaByEquipeUsercase,
         listaPartidaByDataUsercase: ListaPartidaByDataUsercase,
         registerPartidaUsercase: RegisterPartidaUsercase,
         updatePartidaUserCase: UpdatePartidaUserCase
@@ -67,6 +66,7 @@ class FactoryModule {
         return HomeViewModelFactory(
             deleteEquipeUsercase,
             listEquipesUsercase,
+            getEquipeUsercase,
             registerEquipeUsercase,
             updateEquipeUsercase,
             deleteJogadorUsercase,
@@ -75,6 +75,7 @@ class FactoryModule {
             updateJogadorUsercase,
             deletePartidaUsercase,
             listPartidaUsercase,
+            listaPartidaByEquipeUsercase,
             listaPartidaByDataUsercase,
             registerPartidaUsercase,
             updatePartidaUserCase

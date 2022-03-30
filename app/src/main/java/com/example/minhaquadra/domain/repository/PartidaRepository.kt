@@ -6,7 +6,7 @@ import java.util.*
 
 interface PartidaRepository {
 
-    suspend fun registerPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: Date?, duracaoPartida: String ): Resource<Boolean>?
+    suspend fun registerPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: Long?, duracaoPartida: String ): Resource<Boolean>?
 
     suspend fun updatePartida(partida: Partida): Resource<Partida>?
 

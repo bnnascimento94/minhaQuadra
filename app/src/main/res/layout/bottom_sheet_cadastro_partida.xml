@@ -85,7 +85,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
-            android:id="@+id/loja"
+            android:id="@+id/adversario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Selecione o Adversário"

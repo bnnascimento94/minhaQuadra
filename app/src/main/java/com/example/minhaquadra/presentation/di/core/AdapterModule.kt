@@ -1,6 +1,7 @@
 package com.example.minhaquadra.presentation.di.core
 
-import com.example.minhaquadra.presentation.home.HomeAdapter
+import com.example.minhaquadra.presentation.home.adapter.JogadorAdapter
+import com.example.minhaquadra.presentation.home.adapter.PartidasAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,8 +14,14 @@ class AdapterModule {
 
     @Singleton
     @Provides
-    fun provideNewsAdapter(): HomeAdapter {
-        return HomeAdapter()
+    fun providePartidasAdapter(): PartidasAdapter {
+        return PartidasAdapter()
+    }
+
+    @Singleton
+    @Provides
+    fun provideJogadoresAdapter(): JogadorAdapter {
+        return JogadorAdapter()
     }
 
 

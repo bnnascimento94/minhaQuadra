@@ -141,9 +141,9 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
         }
     }
 
-    override suspend fun getEquipes(): Resource<List<Equipe>>? {
+    override suspend fun getEquipes(): Resource<ArrayList<Equipe>>? {
         return try {
-            var equipes = mutableListOf<Equipe>()
+            var equipes = ArrayList<Equipe>()
             val result = database.collection("minhaQuadra")
                 .whereNotEqualTo("uidEquipe",null).get().await()
             if(!result.isEmpty){

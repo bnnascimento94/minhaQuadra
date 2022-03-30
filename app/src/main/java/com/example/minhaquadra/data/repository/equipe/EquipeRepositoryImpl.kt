@@ -28,7 +28,7 @@ class EquipeRepositoryImpl(private val equipeDataSource: EquipeDataSource): Equi
         return equipeDataSource.getEquipe(uidUsuario)
     }
 
-    override suspend fun getEquipes(): Resource<List<Equipe>>? {
+    override suspend fun getEquipes(): Resource<ArrayList<Equipe>>? {
         return equipeDataSource.getEquipes()
     }
 

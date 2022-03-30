@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.minhaquadra.data.model.Equipe
 import com.example.minhaquadra.data.model.Jogador
 import com.example.minhaquadra.data.model.Partida
+import com.example.minhaquadra.data.util.ImageSaver
 import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.domain.usercases.equipe.*
 import com.example.minhaquadra.domain.usercases.jogador.DeleteJogadorUsercase
@@ -14,7 +15,9 @@ import com.example.minhaquadra.domain.usercases.jogador.ListJogadorUsercase
 import com.example.minhaquadra.domain.usercases.jogador.RegisterJogadorUsercase
 import com.example.minhaquadra.domain.usercases.jogador.UpdateJogadorUsercase
 import com.example.minhaquadra.domain.usercases.partida.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import java.util.*
 
 class HomeViewModel(
@@ -37,7 +40,7 @@ class HomeViewModel(
 
     val equipeBuscada: MutableLiveData<Resource<Equipe>> = MutableLiveData()
     val equipeDeletada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
-    val equipeListada: MutableLiveData<Resource<List<Equipe>>> = MutableLiveData()
+    val equipeListada: MutableLiveData<Resource<ArrayList<Equipe>>> = MutableLiveData()
     val equipeRegistrada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val equipeAtualizada: MutableLiveData<Resource<Equipe>> = MutableLiveData()
 
@@ -53,23 +56,32 @@ class HomeViewModel(
     val partidaRegistrada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val partidaAtualizada: MutableLiveData<Resource<Partida>> = MutableLiveData()
 
-    fun deletarEquipe(uidEquipe:String) = viewModelScope.launch{
+    var filePhoto: File? = null
+    var equipe: Equipe? = null
+    var equipes: ArrayList<Equipe>? = null
+
+    fun deletarEquipe(uidEquipe:String) = viewModelScope.launch(Dispatchers.IO){
+       equipeDeletada.postValue(Resource.Loading())
        equipeDeletada.postValue(deleteEquipeUsercase.execute(uidEquipe)!!)
     }
 
-    fun listarEquipes() = viewModelScope.launch {
+    fun listarEquipes() = viewModelScope.launch(Dispatchers.IO) {
+        equipeListada.postValue(Resource.Loading())
         equipeListada.postValue(listEquipesUsercase.execute())
     }
 
-    fun getEquipe(uidUsuario:String) = viewModelScope.launch {
+    fun getEquipe(uidUsuario:String) = viewModelScope.launch(Dispatchers.IO) {
+        equipeBuscada.postValue(Resource.Loading())
         equipeBuscada.postValue(getEquipeUsercase.execute(uidUsuario))
     }
 
-    fun registrarEquipe(foto: Bitmap, nomeEquipe: String,responsavelEquipe:String, situacaoTime: Boolean) = viewModelScope.launch {
+    fun registrarEquipe(foto: Bitmap, nomeEquipe: String,responsavelEquipe:String, situacaoTime: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        equipeRegistrada.postValue(Resource.Loading())
         equipeRegistrada.postValue(registerEquipeUsercase.execute(foto, nomeEquipe, responsavelEquipe, situacaoTime))
     }
 
-    fun atualizarEquipe(foto: Bitmap,uidEquipe: String, nomeEquipe: String,responsavelEquipe: String?, situacaoTime: Boolean) = viewModelScope.launch {
+    fun atualizarEquipe(foto: Bitmap,uidEquipe: String, nomeEquipe: String,responsavelEquipe: String?, situacaoTime: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        equipeAtualizada.postValue(Resource.Loading())
         val equipe = Equipe(
             uidEquipe = uidEquipe,
             null,
@@ -82,60 +94,58 @@ class HomeViewModel(
     }
 
 
-    fun deletarJogador(uidJogador:String) = viewModelScope.launch {
+    fun deletarJogador(uidJogador:String) = viewModelScope.launch(Dispatchers.IO) {
+        jogadorDeletado.postValue(Resource.Loading())
         jogadorDeletado.postValue(deleteJogadorUsercase.execute(uidJogador))
     }
 
-    fun listarJogador(uidEquipe: String) = viewModelScope.launch {
+    fun listarJogador(uidEquipe: String) = viewModelScope.launch(Dispatchers.IO) {
+        jogadorListado.postValue(Resource.Loading())
         jogadorListado.postValue(listJogadorUsercase.execute(uidEquipe))
     }
 
-    fun registrarJogador(nome: String, cpf: String, uidEquipe: String) = viewModelScope.launch {
+    fun registrarJogador(nome: String, cpf: String, uidEquipe: String) = viewModelScope.launch(Dispatchers.IO) {
+        jogadorRegistrado.postValue(Resource.Loading())
         jogadorRegistrado.postValue(registerJogadorUsercase.execute(nome, cpf, uidEquipe))
     }
 
-    fun atualizarJogador(uidJogador: String?,nome: String, cpf: String, uidEquipe: String) = viewModelScope.launch {
-        val jogador = Jogador(
-            uidJogador = uidJogador,
-            nome = nome,
-            cpf = cpf,
-            uidEquipe = uidEquipe
-        )
+    fun atualizarJogador(jogador: Jogador) = viewModelScope.launch(Dispatchers.IO) {
+        jogadorAtualizado.postValue(Resource.Loading())
         jogadorAtualizado.postValue(updateJogadorUsercase.execute(jogador))
     }
 
-    fun deletarPartida(uidPartida:String) = viewModelScope.launch {
+    fun deletarPartida(uidPartida:String) = viewModelScope.launch(Dispatchers.IO) {
+        partidaDeletada.postValue(Resource.Loading())
         partidaDeletada.postValue(deletePartidaUsercase.execute(uidPartida))
     }
 
-    fun listarPartida() = viewModelScope.launch {
+    fun listarPartida() = viewModelScope.launch(Dispatchers.IO) {
+        partidaListada.postValue(Resource.Loading())
         partidaListada.postValue(listPartidaUsercase.execute())
     }
 
-    fun listarPartidaPorData(date: Date) = viewModelScope.launch {
+    fun listarPartidaPorData(date: Date) = viewModelScope.launch(Dispatchers.IO) {
+        partidaDataListada.postValue(Resource.Loading())
         partidaDataListada.postValue(listaPartidaByDataUsercase.execute(date))
     }
 
-    fun listarPartidaPorEquipe(uidEquipe: String) = viewModelScope.launch {
+    fun listarPartidaPorEquipe(uidEquipe: String) = viewModelScope.launch(Dispatchers.IO) {
+        partidaEquipeListada.postValue(Resource.Loading())
         partidaEquipeListada.postValue(listaPartidaByEquipeUsercase.execute(uidEquipe))
     }
 
-    fun registrarPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: Date?, duracaoPartida: String) = viewModelScope.launch {
+    fun registrarPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: Long?, duracaoPartida: String) = viewModelScope.launch(Dispatchers.IO) {
+        partidaRegistrada.postValue(Resource.Loading())
         partidaRegistrada.postValue(registerPartidaUsercase.execute(reservaQuadra, confronto, uidMandante, uidAdversario, dataPartida, duracaoPartida))
     }
 
-    fun atualizarPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: Date?, duracaoPartida: String) = viewModelScope.launch {
-        val partida = Partida(
-            uidPartida = null,
-            reservaQuadra = reservaQuadra,
-            confronto = confronto,
-            uidMandante = uidMandante,
-            uidAdversario = uidAdversario,
-            dataPartida = dataPartida?.time,
-            duracaoPartida = duracaoPartida
-        )
-
+    fun atualizarPartida(partida: Partida) = viewModelScope.launch(Dispatchers.IO) {
+        partidaAtualizada.postValue(Resource.Loading())
         partidaAtualizada.postValue(updatePartidaUserCase.execute(partida))
+    }
+
+    fun rotacionarImagem() : Bitmap{
+        return ImageSaver.rotateImage(filePhoto!!.absolutePath)
     }
 
 

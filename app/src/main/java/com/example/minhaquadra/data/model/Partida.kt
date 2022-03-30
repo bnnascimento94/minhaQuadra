@@ -1,5 +1,6 @@
 package com.example.minhaquadra.data.model
 
+import java.io.Serializable
 import kotlin.String
 
 data class Partida(
@@ -7,10 +8,12 @@ data class Partida(
     val reservaQuadra: Boolean?,
     val confronto: Boolean?,
     val uidMandante: String?,
+    var mandante : Equipe? = null,
     val uidAdversario: String?,
+    var adversario : Equipe? = null,
     val dataPartida: Long?,
     val duracaoPartida: String
-){
+): Serializable{
     fun partidaToHash(): Map<String, Any?>{
 
         val partida = mutableMapOf<String, Any?>()

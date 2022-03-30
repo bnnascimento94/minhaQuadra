@@ -14,6 +14,6 @@ interface EquipeRepository {
 
     suspend fun getEquipe(uidUsuario: String): Resource<Equipe>?
 
-    suspend fun getEquipes(): Resource<List<Equipe>>?
+    suspend fun getEquipes(): Resource<ArrayList<Equipe>>?
 
 }

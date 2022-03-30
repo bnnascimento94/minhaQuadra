@@ -1,5 +1,6 @@
 package com.example.minhaquadra.data.repository.datasourceimpl
 
+import com.example.minhaquadra.data.model.Equipe
 import com.example.minhaquadra.data.model.Partida
 import com.example.minhaquadra.data.repository.datasource.PartidaDataSource
 import com.example.minhaquadra.data.util.DateToTimeStamp
@@ -16,7 +17,7 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
         confronto: Boolean?,
         uidMandante: String?,
         uidAdversario: String?,
-        dataPartida: Date?,
+        dataPartida: Long?,
         duracaoPartida: String
     ): Resource<Boolean>? {
 
@@ -27,7 +28,7 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
                 confronto = confronto,
                 uidMandante = uidMandante,
                 uidAdversario = uidAdversario,
-                dataPartida = DateToTimeStamp.dateToTimeStamp(dataPartida!!),
+                dataPartida = dataPartida!!,
                 duracaoPartida = duracaoPartida
             )
             database.collection("minhaQuadra").document("partida").set(partida.partidaToHash()).await()
@@ -127,7 +128,51 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
                 .whereLessThanOrEqualTo("dataPartida",data.time).get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
-                    partidas.add(document.toObject(Partida::class.java)!!)
+                    val mandante = database.collection("minhaQuadra")
+                        .whereEqualTo("uidMandante",document["uidMandante"])
+                        .get().await().documents.get(0).toObject(Equipe::class.java)
+
+                    val adversario = database.collection("minhaQuadra")
+                        .whereEqualTo("uidAdversario",document["uidAdversario"])
+                        .get().await().documents.get(0).toObject(Equipe::class.java)
+
+                    var partida = document.toObject(Partida::class.java)!!
+                    partida.adversario = adversario
+                    partida.mandante = mandante
+
+                    partidas.add(partida)
+                }
+                Resource.Success(partidas)
+
+            }else{
+                Resource.Error("No data")
+            }
+
+        }catch(e: Exception){
+            Resource.Error(e.message)
+        }
+    }
+
+    override suspend fun getPartidasPorEquipe(uidEquipe: String): Resource<List<Partida>>? {
+        return try {
+            var partidas = mutableListOf<Partida>()
+            val result = database.collection("minhaQuadra")
+                .whereEqualTo("uidMandante",uidEquipe).get().await()
+            if(!result.isEmpty){
+                for (document in result.documents){
+                    val mandante = database.collection("minhaQuadra")
+                        .whereEqualTo("uidMandante",document["uidMandante"])
+                        .get().await().documents.get(0).toObject(Equipe::class.java)
+
+                    val adversario = database.collection("minhaQuadra")
+                        .whereEqualTo("uidAdversario",document["uidAdversario"])
+                        .get().await().documents.get(0).toObject(Equipe::class.java)
+
+                    var partida = document.toObject(Partida::class.java)!!
+                    partida.adversario = adversario
+                    partida.mandante = mandante
+
+                    partidas.add(partida)
                 }
                 Resource.Success(partidas)
 

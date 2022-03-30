@@ -12,7 +12,7 @@ class PartidaRepositoryImpl(private val partidaDataSource: PartidaDataSource): P
         confronto: Boolean?,
         uidMandante: String?,
         uidAdversario: String?,
-        dataPartida: Date?,
+        dataPartida: Long?,
         duracaoPartida: String
     ): Resource<Boolean>? {
         return partidaDataSource.registerPartida(reservaQuadra, confronto, uidMandante, uidAdversario, dataPartida, duracaoPartida)
@@ -36,5 +36,9 @@ class PartidaRepositoryImpl(private val partidaDataSource: PartidaDataSource): P
 
     override suspend fun getPartidasPorData(data: Date): Resource<List<Partida>>? {
         return partidaDataSource.getPartidasPorData(data)
+    }
+
+    override suspend fun getPartidasPorEquipe(uidEquipe: String): Resource<List<Partida>>? {
+        return partidaDataSource.getPartidasPorEquipe(uidEquipe)
     }
 }

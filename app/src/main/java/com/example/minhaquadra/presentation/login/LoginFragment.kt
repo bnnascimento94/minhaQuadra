@@ -16,7 +16,6 @@ import com.google.android.material.snackbar.Snackbar
 import android.content.Intent
 import com.example.minhaquadra.data.util.Preferencias
 import com.example.minhaquadra.presentation.home.HomeActivity
-import com.example.minhaquadra.presentation.home.HomeAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
