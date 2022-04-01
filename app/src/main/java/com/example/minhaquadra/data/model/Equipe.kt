@@ -4,11 +4,11 @@ import java.io.Serializable
 import kotlin.String
 
 data class Equipe(
-    val uidEquipe: String?,
-    val pathFoto: String?,
-    val nomeEquipe: String?,
-    val responsavelEquipe: String?,
-    val situacaoTime: Boolean?,
+    val uidEquipe: String? = null,
+    val pathFoto: String? = null,
+    val nomeEquipe: String?= null,
+    val responsavelEquipe: String? = null,
+    val situacaoTime: Boolean? = null,
     var donwloadUrl: String? = null,
 ): Serializable{
 

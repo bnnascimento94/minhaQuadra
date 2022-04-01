@@ -71,7 +71,7 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
             val result = database.collection("minhaQuadra").whereEqualTo("uidPartida",equipe.uidEquipe).get().await()
             if(!result.isEmpty){
                 if(bitmap != null){
-                    deletePhoto(equipe.pathFoto)
+                    deletePhoto( "equipes/${equipe.pathFoto}.jpg")
                     saveEquipePhoto(bitmap,equipe.uidEquipe!!)
                     for (document in result.documents){
                         val uid = document.id
@@ -101,7 +101,7 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
                 Query.Direction.DESCENDING).get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
-                    deletePhoto(document["pathFoto"].toString())
+                    deletePhoto("equipes/${document["pathFoto"].toString()}.jpg")
                     val uid = document.id
                     val docRef = database.collection("minhaQuadra").document(uid)
                     docRef.delete()
@@ -128,7 +128,7 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
                 for (document in result.documents){
                     equipe = document.toObject(Equipe::class.java)!!
                     val storageRef = firebaseStorage.getReference()
-                    val ref = storageRef.child(equipe.pathFoto!!)
+                    val ref = storageRef.child("equipes/${equipe.pathFoto!!}.jpg")
                     equipe.donwloadUrl = ref.downloadUrl.await().toString()
                     break
                 }

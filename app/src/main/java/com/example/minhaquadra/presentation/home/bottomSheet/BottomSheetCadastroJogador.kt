@@ -1,4 +1,4 @@
-package com.example.minhaquadra.presentation.home
+package com.example.minhaquadra.presentation.home.bottomSheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.minhaquadra.R
-import com.example.minhaquadra.data.model.Equipe
 import com.example.minhaquadra.data.model.Jogador
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton

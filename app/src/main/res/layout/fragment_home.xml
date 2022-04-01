@@ -13,7 +13,7 @@
             android:id="@+id/profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="200dp"
+            android:minHeight="170dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="6dp"
@@ -26,12 +26,14 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_margin="10dp"
                     android:src="@drawable/add_icon"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@color/main_color"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
@@ -71,35 +73,14 @@
                         android:text=""/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/lnResponsavel"
-                    android:layout_margin="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/lnNome"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:text="Responsável:"/>
-
-                    <TextView
-                        android:id="@+id/txtResponsavel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text=""/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/lnSituacao"
                     android:layout_margin="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/lnResponsavel"
+                    app:layout_constraintTop_toBottomOf="@id/lnNome"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent">
 

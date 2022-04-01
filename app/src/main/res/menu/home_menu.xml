@@ -14,6 +14,6 @@
     android:id="@+id/matchesFragment"
     android:enabled="true"
     android:icon="@drawable/ic_partidas"
-    android:title="Partidas"/>
+    android:title="Partidas do Dia"/>
 
 </menu>

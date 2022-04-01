@@ -20,6 +20,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.minhaquadra.R
 import com.example.minhaquadra.data.model.Equipe
 import com.example.minhaquadra.data.model.Jogador
@@ -28,7 +29,7 @@ import com.example.minhaquadra.data.util.Preferencias
 import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.databinding.FragmentCadastrarTimeBinding
 import com.example.minhaquadra.presentation.home.adapter.JogadorAdapter
-import com.example.minhaquadra.presentation.home.adapter.PartidasAdapter
+import com.example.minhaquadra.presentation.home.bottomSheet.BottomSheetCadastroJogador
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -82,6 +83,12 @@ class CadastrarTimeFragment : Fragment() {
                     response.data?.let { equipe ->
                         binding.txtNomeTime.setText(equipe.nomeEquipe)
                         binding.switchSituacaoTime.isChecked = equipe.situacaoTime!!
+                        Glide
+                            .with(requireContext())
+                            .load(equipe.donwloadUrl)
+                            .centerCrop()
+                            .placeholder(R.drawable.ic_no_itens)
+                            .into(binding.imgEquipe);
 
                     }
                 }

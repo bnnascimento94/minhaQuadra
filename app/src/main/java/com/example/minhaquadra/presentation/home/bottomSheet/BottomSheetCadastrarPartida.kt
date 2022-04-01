@@ -1,19 +1,13 @@
-package com.example.minhaquadra.presentation.home
+package com.example.minhaquadra.presentation.home.bottomSheet
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.CheckBox
-import android.widget.DatePicker
-import androidx.fragment.app.DialogFragment
 import com.example.minhaquadra.R
 import com.example.minhaquadra.data.model.Equipe
 import com.example.minhaquadra.data.model.Partida

@@ -4,15 +4,15 @@ import java.io.Serializable
 import kotlin.String
 
 data class Partida(
-    val uidPartida: String?,
-    val reservaQuadra: Boolean?,
-    val confronto: Boolean?,
-    val uidMandante: String?,
+    val uidPartida: String? = null,
+    val reservaQuadra: Boolean? = null,
+    val confronto: Boolean? = null,
+    val uidMandante: String? = null,
     var mandante : Equipe? = null,
-    val uidAdversario: String?,
+    val uidAdversario: String? = null,
     var adversario : Equipe? = null,
-    val dataPartida: Long?,
-    val duracaoPartida: String
+    val dataPartida: Long? = null,
+    val duracaoPartida: String? = null
 ): Serializable{
     fun partidaToHash(): Map<String, Any?>{
 

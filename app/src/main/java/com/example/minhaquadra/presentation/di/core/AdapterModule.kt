@@ -2,6 +2,7 @@ package com.example.minhaquadra.presentation.di.core
 
 import com.example.minhaquadra.presentation.home.adapter.JogadorAdapter
 import com.example.minhaquadra.presentation.home.adapter.PartidasAdapter
+import com.example.minhaquadra.presentation.home.adapter.PartidasDoDiaAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,5 +25,10 @@ class AdapterModule {
         return JogadorAdapter()
     }
 
+    @Singleton
+    @Provides
+    fun providePartidasDoDiaAdapter(): PartidasDoDiaAdapter {
+        return PartidasDoDiaAdapter()
+    }
 
 }

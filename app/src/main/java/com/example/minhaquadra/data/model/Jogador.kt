@@ -4,10 +4,10 @@ import java.io.Serializable
 import kotlin.String
 
 data class Jogador(
-    val uidJogador: String?,
-    var nome: String?,
-    var cpf: String?,
-    val uidEquipe: String?
+    val uidJogador: String? = null,
+    var nome: String? = null,
+    var cpf: String? = null,
+    val uidEquipe: String? = null
 ): Serializable{
     fun jogadorToHash(): Map<String, Any?>{
 

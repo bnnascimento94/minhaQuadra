@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.minhaquadra.R
 import com.example.minhaquadra.data.model.Equipe
 import com.example.minhaquadra.data.model.Partida
@@ -18,6 +19,7 @@ import com.example.minhaquadra.data.util.Preferencias
 import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.databinding.FragmentHomeBinding
 import com.example.minhaquadra.presentation.home.adapter.PartidasAdapter
+import com.example.minhaquadra.presentation.home.bottomSheet.BottomSheetCadastrarPartida
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -54,6 +56,7 @@ class HomeFragment : Fragment(){
 
         binding.btnAdicional.setOnClickListener {
             try {
+                viewModel.listarEquipes()
                 viewModel.equipeListada.observe(this, Observer { response ->
                     when(response){
                         is Resource.Success->{
@@ -172,12 +175,18 @@ class HomeFragment : Fragment(){
         viewModel.equipeBuscada.observe(this, Observer { response ->
             when(response){
                 is Resource.Success->{
+                    viewModel.equipe = response.data
                     viewModel.listarPartidaPorEquipe(response.data?.uidEquipe!!)
                     this.equipe = response.data
                     response.data?.let { equipe ->
                        binding.txtNomeTime.text = equipe.nomeEquipe
-                       binding.txtResponsavel.text = equipe.responsavelEquipe
                        binding.txtSituacao.text = if(equipe!!.situacaoTime!!) "Ativo" else "Inativo"
+                        Glide
+                            .with(requireContext())
+                            .load(equipe.donwloadUrl)
+                            .centerCrop()
+                            .placeholder(R.drawable.ic_no_itens)
+                            .into(binding.imgProfile);
                     }
                 }
                 is Resource.Error->{

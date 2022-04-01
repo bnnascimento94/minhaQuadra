@@ -4,11 +4,11 @@ import kotlin.String
 
 
 data class User (
-     val uid: String?,
-     val displayName: String?,
-     val email: String?,
-     val photoUrl: String?,
-     val isEmailVerified:Boolean?
+     val uid: String? = null,
+     val displayName: String? = null,
+     val email: String? = null,
+     val photoUrl: String? = null,
+     val isEmailVerified:Boolean? = null
 ){
      fun userToHash(): Map<String, Any?>{
           return mapOf(
