@@ -68,7 +68,7 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
 
     override suspend  fun updateEquipe(equipe: Equipe, bitmap: Bitmap?): Resource<Equipe>? {
         return try {
-            val result = database.collection("minhaQuadra").whereEqualTo("uidPartida",equipe.uidEquipe).get().await()
+            val result = database.collection("minhaQuadra").whereEqualTo("uidEquipe",equipe.uidEquipe).get().await()
             if(!result.isEmpty){
                 if(bitmap != null){
                     deletePhoto( "equipes/${equipe.pathFoto}.jpg")

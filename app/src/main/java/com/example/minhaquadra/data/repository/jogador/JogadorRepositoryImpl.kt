@@ -11,11 +11,11 @@ class JogadorRepositoryImpl(private val jogadorDataSource: JogadorDataSource): J
         nome: String,
         cpf: String,
         uidEquipe: String
-    ): Resource<Boolean>? {
+    ): Resource<List<Jogador>>? {
         return jogadorDataSource.registerJogador(nome, cpf, uidEquipe)
     }
 
-    override suspend fun updateJogador(jogador: Jogador): Resource<Jogador>? {
+    override suspend fun updateJogador(jogador: Jogador): Resource<List<Jogador>>? {
         return jogadorDataSource.updateJogador(jogador)
     }
 

@@ -5,9 +5,9 @@ import com.example.minhaquadra.data.util.Resource
 
 interface JogadorRepository {
 
-    suspend fun registerJogador(nome: String, cpf: String, uidEquipe: String): Resource<Boolean>?
+    suspend fun registerJogador(nome: String, cpf: String, uidEquipe: String): Resource<List<Jogador>>?
 
-    suspend fun updateJogador(jogador: Jogador): Resource<Jogador>?
+    suspend fun updateJogador(jogador: Jogador): Resource<List<Jogador>>?
 
     suspend fun deleteJogador(uidJogador: String): Resource<Boolean>?
 

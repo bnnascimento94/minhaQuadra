@@ -80,11 +80,11 @@ class HomeViewModel(
         equipeRegistrada.postValue(registerEquipeUsercase.execute(foto, nomeEquipe, responsavelEquipe, situacaoTime))
     }
 
-    fun atualizarEquipe(foto: Bitmap,uidEquipe: String, nomeEquipe: String,responsavelEquipe: String?, situacaoTime: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+    fun atualizarEquipe(foto: Bitmap?,pathFoto:String,uidEquipe: String, nomeEquipe: String,responsavelEquipe: String?, situacaoTime: Boolean) = viewModelScope.launch(Dispatchers.IO) {
         equipeAtualizada.postValue(Resource.Loading())
         val equipe = Equipe(
             uidEquipe = uidEquipe,
-            null,
+            pathFoto = pathFoto,
             nomeEquipe = nomeEquipe,
             responsavelEquipe = responsavelEquipe,
             situacaoTime = situacaoTime
@@ -106,12 +106,12 @@ class HomeViewModel(
 
     fun registrarJogador(nome: String, cpf: String, uidEquipe: String) = viewModelScope.launch(Dispatchers.IO) {
         jogadorRegistrado.postValue(Resource.Loading())
-        jogadorRegistrado.postValue(registerJogadorUsercase.execute(nome, cpf, uidEquipe))
+        jogadorListado.postValue(registerJogadorUsercase.execute(nome, cpf, uidEquipe))
     }
 
     fun atualizarJogador(jogador: Jogador) = viewModelScope.launch(Dispatchers.IO) {
         jogadorAtualizado.postValue(Resource.Loading())
-        jogadorAtualizado.postValue(updateJogadorUsercase.execute(jogador))
+        jogadorListado.postValue(updateJogadorUsercase.execute(jogador))
     }
 
     fun deletarPartida(uidPartida:String) = viewModelScope.launch(Dispatchers.IO) {

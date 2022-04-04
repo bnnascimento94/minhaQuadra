@@ -74,7 +74,6 @@ class CadastrarTimeFragment : Fragment() {
 
         viewModel.getEquipe(preferencias.usuario!!)
 
-
         viewModel.equipeBuscada.observe(this, Observer { response ->
             when(response){
                 is Resource.Success->{
@@ -107,9 +106,7 @@ class CadastrarTimeFragment : Fragment() {
         viewModel.jogadorListado.observe(requireActivity(), Observer { response ->
             when(response){
                 is Resource.Success->{
-                    response.data?.let {
-                        jogadorAdapter.load(response.data)
-                    }
+                  jogadorAdapter.load(response.data)
                 }
                 is Resource.Error->{
                     hideProgressBar()
@@ -206,12 +203,12 @@ class CadastrarTimeFragment : Fragment() {
             val responsavelTime:String? = preferencias.usuario
             val situacao:Boolean = binding.switchSituacaoTime.isChecked
 
-            if(viewModel.filePhoto == null || nomeEquipe.isNullOrEmpty() || responsavelTime.isNullOrEmpty()){
+            if( (viewModel.filePhoto == null && viewModel.equipe == null ) || nomeEquipe.isNullOrEmpty() || responsavelTime.isNullOrEmpty()){
                 Snackbar.make(requireView(),"Não foi possível registrar pois há dados incompletos",Snackbar.LENGTH_SHORT).show()
             }else if(viewModel.equipe == null){
                 viewModel.registrarEquipe(bitmap,nomeEquipe,responsavelTime!!,situacao)
             }else{
-                viewModel.atualizarEquipe(bitmap, viewModel.equipe!!.uidEquipe!!,nomeEquipe,responsavelTime,situacao)
+                viewModel.atualizarEquipe(if(viewModel.filePhoto == null) null else bitmap,viewModel.equipe?.pathFoto!!, viewModel.equipe!!.uidEquipe!!,nomeEquipe,responsavelTime,situacao)
             }
         }
 
@@ -257,22 +254,6 @@ class CadastrarTimeFragment : Fragment() {
 
             override fun onSalvar(nome: String, cpf: String, uidEquipe: String) {
                 viewModel.registrarJogador(nome, cpf, uidEquipe)
-                viewModel.jogadorRegistrado.observe(requireActivity(), Observer { response ->
-                    when(response){
-                        is Resource.Success->{
-                            Snackbar.make(requireView(),"Cadastro Realizado", Snackbar.LENGTH_SHORT).show()
-                        }
-                        is Resource.Error->{
-                            hideProgressBar()
-                            response.message?.let { errorMessage->
-                                Toast.makeText(activity,"An error occured: $errorMessage", Toast.LENGTH_LONG).show()
-                            }
-                        }
-                        is Resource.Loading->{
-                            showProgressBar()
-                        }
-                    }
-                })
             }
 
             override fun onAtualizar(jogador: Jogador) {
@@ -282,7 +263,6 @@ class CadastrarTimeFragment : Fragment() {
             override fun onDelete(uidJogador: String) {
                 viewModel.deletarJogador(uidJogador)
             }
-
 
         })
 

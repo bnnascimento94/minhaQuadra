@@ -9,31 +9,40 @@ import java.util.*
 
 class JogadorDataSourceImpl(private val database: FirebaseFirestore): JogadorDataSource {
 
-    override suspend fun registerJogador(nome: String, cpf: String, uidEquipe: String): Resource<Boolean>? {
+    override suspend fun registerJogador(nome: String, cpf: String, uidEquipe: String): Resource<List<Jogador>>? {
         return try {
+            val uidJogdor = UUID.randomUUID().toString();
             val jogador = Jogador(
-                uidJogador= UUID.randomUUID().toString(),
+                uidJogador= uidJogdor,
                 nome = nome,
                 cpf = cpf,
                 uidEquipe = uidEquipe
             )
-            database.collection("minhaQuadra").document("jogador").set(jogador.jogadorToHash()).await()
-            Resource.Success(true)
+            database.collection("minhaQuadra")
+                .document("jogador")
+                .collection(uidEquipe)
+                .document(uidJogdor)
+                .set(jogador.jogadorToHash())
+
+            return getJogadores(jogador.uidEquipe!!)
         }catch(e: Exception){
             Resource.Error(e.message)
         }
     }
 
-    override suspend fun updateJogador(jogador: Jogador): Resource<Jogador>? {
+    override suspend fun updateJogador(jogador: Jogador): Resource<List<Jogador>>? {
         return try {
-            val result = database.collection("minhaQuadra").whereEqualTo("uidJogador",jogador.uidJogador).get().await()
+            val result = database.collection("minhaQuadra")
+                .document("jogador")
+                .collection(jogador.uidEquipe!!)
+                .whereEqualTo("uidJogador",jogador.uidJogador).get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
                     val uid = document.id
                     val docRef = database.collection("minhaQuadra").document(uid)
                     docRef.update(jogador.jogadorToHash())
                 }
-                Resource.Success(jogador)
+                return getJogadores(jogador.uidEquipe!!)
             }else{
                 Resource.Error("No data")
             }
@@ -67,7 +76,10 @@ class JogadorDataSourceImpl(private val database: FirebaseFirestore): JogadorDat
     override suspend fun getJogador(uidJogador: String): Resource<Jogador>? {
         return try {
             var jogador: Jogador? = null
-            val result = database.collection("minhaQuadra").whereEqualTo("uidJogador",uidJogador).get().await()
+
+            val result = database
+                .collection("minhaQuadra")
+                .whereEqualTo("uidJogador",uidJogador).get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
                     jogador = document.toObject(Jogador::class.java)
@@ -87,9 +99,10 @@ class JogadorDataSourceImpl(private val database: FirebaseFirestore): JogadorDat
     override suspend fun getJogadores(uidEquipe: String): Resource<List<Jogador>>? {
         return try {
             var jogadores = mutableListOf<Jogador>()
-            val result = database.collection("minhaQuadra")
-                .whereNotEqualTo("uidJogador",null)
-                .whereEqualTo("uidEquipe", uidEquipe)
+            val result = database
+                .collection("minhaQuadra")
+                .document("jogador")
+                .collection(uidEquipe)
                 .get().await()
             if(!result.isEmpty){
                 for (document in result.documents){

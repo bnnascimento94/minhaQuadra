@@ -36,18 +36,20 @@ class BottomSheetCadastroJogador(callback: Callback) : BottomSheetDialogFragment
         val btnDeletar: MaterialButton = view.findViewById(R.id.btnDelete)
 
         val txtNomeJogador: TextInputEditText = view.findViewById(R.id.txtNomeJogador)
-        val txtCpf: TextInputEditText = view.findViewById(R.id.cpf)
+        val txtCpf: TextInputEditText = view.findViewById(R.id.txtCpf)
 
         val bundle = arguments
         var uidEquipe: String? = null
         var jogador : Jogador? = null
 
-        if(bundle!!.containsKey("equipe")){
+        if(bundle!!.containsKey("uidEquipe")){
             uidEquipe = bundle!!.getString("uidEquipe")
         }
 
         if(bundle!!.containsKey("jogador")){
             jogador = bundle!!.getSerializable("jogador") as Jogador?
+            txtNomeJogador.setText(jogador?.nome)
+            txtCpf.setText(jogador?.cpf)
         }
 
         btnSalvar.setOnClickListener { view ->
@@ -59,8 +61,10 @@ class BottomSheetCadastroJogador(callback: Callback) : BottomSheetDialogFragment
                     jogador?.nome = nomeJogador
                     jogador.cpf = cpf
                     callback?.onAtualizar(jogador)
+                    this.dismiss()
                 }else{
                     callback?.onSalvar(nomeJogador,cpf,uidEquipe!!)
+                    this.dismiss()
                 }
             }
         }

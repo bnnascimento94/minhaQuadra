@@ -19,6 +19,7 @@ class JogadorAdapter(): RecyclerView.Adapter<JogadorAdapter.JogadorViewHolder>()
 
     fun load(jogadores: List<Jogador>?){
         this.jogadores = jogadores!!
+        this.notifyDataSetChanged()
     }
 
 
