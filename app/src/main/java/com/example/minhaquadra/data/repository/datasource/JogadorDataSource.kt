@@ -9,7 +9,7 @@ interface JogadorDataSource {
 
     suspend fun updateJogador(jogador: Jogador): Resource<List<Jogador>>?
 
-    suspend fun deleteJogador(uidJogador: String): Resource<Boolean>?
+    suspend fun deleteJogador(jogador: Jogador): Resource<Boolean>?
 
     suspend fun getJogador(uidJogador: String): Resource<Jogador>?
 

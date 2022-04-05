@@ -19,7 +19,9 @@ import androidx.core.view.drawToBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.minhaquadra.R
 import com.example.minhaquadra.data.model.Equipe
@@ -62,7 +64,6 @@ class CadastrarTimeFragment : Fragment() {
     }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,6 +72,31 @@ class CadastrarTimeFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cadastrar_time, container, false)
         viewModel = (activity as HomeActivity).viewModel
         initRecyclerView()
+
+        val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val jogador = jogadorAdapter.differ.currentList[position]
+                viewModel.deletarJogador(jogador)
+
+                Snackbar.make(requireView(),"Deleted Successfully", Snackbar.LENGTH_LONG).show()
+
+            }
+        }
+        ItemTouchHelper(itemTouchHelperCallback).apply {
+            attachToRecyclerView(binding.rv)
+        }
 
         viewModel.getEquipe(preferencias.usuario!!)
 
@@ -106,7 +132,26 @@ class CadastrarTimeFragment : Fragment() {
         viewModel.jogadorListado.observe(requireActivity(), Observer { response ->
             when(response){
                 is Resource.Success->{
-                  jogadorAdapter.load(response.data)
+                    jogadorAdapter.differ.submitList(response.data!!.toList())
+                }
+                is Resource.Error->{
+                    hideProgressBar()
+                    response.message?.let { errorMessage->
+                        Toast.makeText(activity,"An error occured: $errorMessage", Toast.LENGTH_LONG).show()
+                    }
+                }
+                is Resource.Loading->{
+                    showProgressBar()
+                }
+            }
+        })
+
+        viewModel.jogadorDeletado.observe(requireActivity(), Observer { response ->
+            when(response){
+                is Resource.Success->{
+                   if(response.data!! && viewModel.equipe != null){
+                       viewModel.listarJogador(viewModel.equipe?.uidEquipe!!)
+                   }
                 }
                 is Resource.Error->{
                     hideProgressBar()
@@ -183,7 +228,7 @@ class CadastrarTimeFragment : Fragment() {
         viewModel.equipeAtualizada.observe(requireActivity(),Observer{ response ->
             when(response){
                 is Resource.Success->{
-                    Snackbar.make(requireView(),"Cadastro Atualizado", Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Cadasdro atualizado", Toast.LENGTH_LONG).show()
                 }
                 is Resource.Error->{
                     hideProgressBar()
@@ -219,9 +264,6 @@ class CadastrarTimeFragment : Fragment() {
                 Snackbar.make(requireView(),"Não foi possível adicionar jogador, pois a equipe não foi registrada", Snackbar.LENGTH_SHORT).show()
             }
         }
-
-
-
 
         return binding.root
     }
@@ -260,8 +302,8 @@ class CadastrarTimeFragment : Fragment() {
                 viewModel.atualizarJogador(jogador)
             }
 
-            override fun onDelete(uidJogador: String) {
-                viewModel.deletarJogador(uidJogador)
+            override fun onDelete(jogador: Jogador) {
+                viewModel.deletarJogador(jogador)
             }
 
         })

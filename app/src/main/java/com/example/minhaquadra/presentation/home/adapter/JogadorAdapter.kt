@@ -3,6 +3,8 @@ package com.example.minhaquadra.presentation.home.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.minhaquadra.R
 import com.example.minhaquadra.data.model.Jogador
@@ -10,17 +12,19 @@ import com.example.minhaquadra.databinding.JogadorListItemBinding
 
 class JogadorAdapter(): RecyclerView.Adapter<JogadorAdapter.JogadorViewHolder>() {
 
-    var jogadores: List<Jogador>?
     var onItemClick: ((Jogador) -> Unit)? = null
 
-    init {
-        jogadores = mutableListOf()
+    private val callback = object: DiffUtil.ItemCallback<Jogador>(){
+        override fun areItemsTheSame(oldItem: Jogador, newItem: Jogador): Boolean {
+            return oldItem.uidJogador === newItem.uidJogador
+        }
+
+        override fun areContentsTheSame(oldItem: Jogador, newItem: Jogador): Boolean {
+            return oldItem == newItem
+        }
     }
 
-    fun load(jogadores: List<Jogador>?){
-        this.jogadores = jogadores!!
-        this.notifyDataSetChanged()
-    }
+    val differ = AsyncListDiffer(this,callback)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): JogadorViewHolder {
@@ -32,24 +36,23 @@ class JogadorAdapter(): RecyclerView.Adapter<JogadorAdapter.JogadorViewHolder>()
     }
 
     override fun onBindViewHolder(holder: JogadorViewHolder, position: Int) {
-        val jogador = jogadores!![position]
+        val jogador = differ.currentList[position]
         holder.jogadorListItemBinding.txtNomeJogador.text = jogador.nome
         holder.jogadorListItemBinding.txtCpf.text = jogador.cpf
     }
 
     override fun getItemCount(): Int {
-        return jogadores!!.size
+        return differ.currentList.size
     }
 
 
     inner class JogadorViewHolder(jogadorListItemBinding: JogadorListItemBinding) :
         RecyclerView.ViewHolder(jogadorListItemBinding.getRoot()) {
         val jogadorListItemBinding: JogadorListItemBinding
-        //o init comporta-se como o construtor no java, sempre que se inicializa o objeto a classe procura o init
         init {
             this.jogadorListItemBinding = jogadorListItemBinding
             itemView.setOnClickListener {
-                onItemClick?.invoke(jogadores!![adapterPosition])
+                onItemClick?.invoke(differ.currentList[adapterPosition])
             }
         }
     }

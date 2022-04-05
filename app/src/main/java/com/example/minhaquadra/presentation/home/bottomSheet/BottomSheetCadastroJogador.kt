@@ -22,7 +22,7 @@ class BottomSheetCadastroJogador(callback: Callback) : BottomSheetDialogFragment
     interface Callback {
         fun onSalvar(nome: String, cpf: String, uidEquipe: String)
         fun onAtualizar(jogador: Jogador)
-        fun onDelete(uidJogador:String)
+        fun onDelete(jogador: Jogador)
     }
 
     override fun onCreateView(
@@ -71,7 +71,7 @@ class BottomSheetCadastroJogador(callback: Callback) : BottomSheetDialogFragment
 
         btnDeletar.setOnClickListener {
             if (jogador != null){
-                callback?.onDelete(jogador.uidJogador!!)
+                callback?.onDelete(jogador)
             }else{
                 Toast.makeText(requireContext(),"Não é possível deletar jogador não cadastrado", Toast.LENGTH_LONG).show()
             }

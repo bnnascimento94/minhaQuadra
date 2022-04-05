@@ -94,9 +94,9 @@ class HomeViewModel(
     }
 
 
-    fun deletarJogador(uidJogador:String) = viewModelScope.launch(Dispatchers.IO) {
+    fun deletarJogador(jogador:Jogador) = viewModelScope.launch(Dispatchers.IO) {
         jogadorDeletado.postValue(Resource.Loading())
-        jogadorDeletado.postValue(deleteJogadorUsercase.execute(uidJogador))
+        jogadorDeletado.postValue(deleteJogadorUsercase.execute(jogador))
     }
 
     fun listarJogador(uidEquipe: String) = viewModelScope.launch(Dispatchers.IO) {
@@ -110,7 +110,7 @@ class HomeViewModel(
     }
 
     fun atualizarJogador(jogador: Jogador) = viewModelScope.launch(Dispatchers.IO) {
-        jogadorAtualizado.postValue(Resource.Loading())
+        jogadorListado.postValue(Resource.Loading())
         jogadorListado.postValue(updateJogadorUsercase.execute(jogador))
     }
 

@@ -19,8 +19,8 @@ class JogadorRepositoryImpl(private val jogadorDataSource: JogadorDataSource): J
         return jogadorDataSource.updateJogador(jogador)
     }
 
-    override suspend fun deleteJogador(uidJogador: String): Resource<Boolean>? {
-        return jogadorDataSource.deleteJogador(uidJogador)
+    override suspend fun deleteJogador(jogador: Jogador): Resource<Boolean>? {
+        return jogadorDataSource.deleteJogador(jogador)
     }
 
     override suspend fun getJogador(uidJogador: String): Resource<Jogador>? {
