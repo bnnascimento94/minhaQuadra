@@ -46,8 +46,6 @@ class HomeViewModel(
 
     val jogadorDeletado: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val jogadorListado: MutableLiveData<Resource<List<Jogador>>> = MutableLiveData()
-    val jogadorRegistrado: MutableLiveData<Resource<Boolean>> = MutableLiveData()
-    val jogadorAtualizado: MutableLiveData<Resource<Jogador>> = MutableLiveData()
 
     val partidaDeletada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val partidaListada: MutableLiveData<Resource<List<Partida>>> = MutableLiveData()
@@ -105,7 +103,7 @@ class HomeViewModel(
     }
 
     fun registrarJogador(nome: String, cpf: String, uidEquipe: String) = viewModelScope.launch(Dispatchers.IO) {
-        jogadorRegistrado.postValue(Resource.Loading())
+        jogadorListado.postValue(Resource.Loading())
         jogadorListado.postValue(registerJogadorUsercase.execute(nome, cpf, uidEquipe))
     }
 
@@ -134,9 +132,9 @@ class HomeViewModel(
         partidaEquipeListada.postValue(listaPartidaByEquipeUsercase.execute(uidEquipe))
     }
 
-    fun registrarPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: Long?, duracaoPartida: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun registrarPartida(reservaQuadra: Boolean?, confronto: Boolean?, uidMandante: String?, uidAdversario: String?, dataPartida: Long?,horaPartida: Long?, duracaoPartida: String) = viewModelScope.launch(Dispatchers.IO) {
         partidaRegistrada.postValue(Resource.Loading())
-        partidaRegistrada.postValue(registerPartidaUsercase.execute(reservaQuadra, confronto, uidMandante, uidAdversario, dataPartida, duracaoPartida))
+        partidaRegistrada.postValue(registerPartidaUsercase.execute(reservaQuadra, confronto, uidMandante, uidAdversario, dataPartida,horaPartida, duracaoPartida))
     }
 
     fun atualizarPartida(partida: Partida) = viewModelScope.launch(Dispatchers.IO) {

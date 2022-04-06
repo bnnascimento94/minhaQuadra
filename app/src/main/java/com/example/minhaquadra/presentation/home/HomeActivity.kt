@@ -29,15 +29,6 @@ class HomeActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this,factory).get(HomeViewModel::class.java)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-
-        val toolbar: Toolbar = binding.toolbar
-        setSupportActionBar(toolbar)
-        supportActionBar!!.setTitle("")
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        toolbar.setNavigationOnClickListener {
-            onBackPressed()
-        }
-
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navigationViewHome) as NavHostFragment
         val navController = navHostFragment.navController
 

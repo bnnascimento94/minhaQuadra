@@ -18,9 +18,7 @@ class JogadorDataSourceImpl(private val database: FirebaseFirestore): JogadorDat
                 cpf = cpf,
                 uidEquipe = uidEquipe
             )
-            database.collection("minhaQuadra")
-                .document("jogador")
-                .collection(uidEquipe)
+            database.collection("jogador")
                 .document(uidJogdor)
                 .set(jogador.jogadorToHash())
 
@@ -32,22 +30,10 @@ class JogadorDataSourceImpl(private val database: FirebaseFirestore): JogadorDat
 
     override suspend fun updateJogador(jogador: Jogador): Resource<List<Jogador>>? {
         return try {
-            val result = database.collection("minhaQuadra")
-                .document("jogador")
-                .collection(jogador.uidEquipe!!)
-                .whereEqualTo("uidJogador",jogador.uidJogador).get().await()
-            if(!result.isEmpty){
-                for (document in result.documents){
-                    database.collection("minhaQuadra")
-                    .document("jogador")
-                    .collection(jogador.uidEquipe!!)
-                    .document(document.id).update(jogador.jogadorToHash()).await()
-                }
-                return getJogadores(jogador.uidEquipe!!)
-            }else{
-                Resource.Error("No data")
-            }
-
+            database.collection("jogador")
+                    .document(jogador.uidJogador!!)
+                    .update(jogador.jogadorToHash()).await()
+            return getJogadores(jogador.uidEquipe!!)
         }catch(e: Exception){
             Resource.Error(e.message)
         }
@@ -55,10 +41,10 @@ class JogadorDataSourceImpl(private val database: FirebaseFirestore): JogadorDat
 
     override suspend fun deleteJogador(jogador: Jogador): Resource<Boolean>? {
         return try {
-            database.collection("minhaQuadra")
-                .document("jogador")
-                .collection(jogador.uidEquipe!!)
-                .document(jogador.uidJogador!!).delete().await()
+            database.collection("jogador")
+                .document(jogador.uidJogador!!)
+                .delete()
+                .await()
             return Resource.Success(true)
         }catch(e: Exception){
             Resource.Error(e.message)
@@ -70,8 +56,9 @@ class JogadorDataSourceImpl(private val database: FirebaseFirestore): JogadorDat
             var jogador: Jogador? = null
 
             val result = database
-                .collection("minhaQuadra")
-                .whereEqualTo("uidJogador",uidJogador).get().await()
+                .collection("jogador")
+                .whereEqualTo("uidJogador",uidJogador)
+                .get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
                     jogador = document.toObject(Jogador::class.java)
@@ -92,9 +79,8 @@ class JogadorDataSourceImpl(private val database: FirebaseFirestore): JogadorDat
         return try {
             var jogadores = mutableListOf<Jogador>()
             val result = database
-                .collection("minhaQuadra")
-                .document("jogador")
-                .collection(uidEquipe)
+                .collection("jogador")
+                .whereEqualTo("uidEquipe",uidEquipe)
                 .get().await()
             if(!result.isEmpty){
                 for (document in result.documents){

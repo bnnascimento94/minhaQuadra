@@ -18,20 +18,27 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
         uidMandante: String?,
         uidAdversario: String?,
         dataPartida: Long?,
+        horaPartida: Long?,
         duracaoPartida: String
     ): Resource<Boolean>? {
 
         return try {
+            val uidPartida = UUID.randomUUID().toString()
             val partida = Partida(
-                uidPartida = UUID.randomUUID().toString(),
+                uidPartida = uidPartida,
                 reservaQuadra = reservaQuadra,
                 confronto = confronto,
                 uidMandante = uidMandante,
                 uidAdversario = uidAdversario,
                 dataPartida = dataPartida!!,
+                horaPartida = horaPartida!!,
                 duracaoPartida = duracaoPartida
             )
-            database.collection("minhaQuadra").document("partida").set(partida.partidaToHash()).await()
+
+            database.collection("partida")
+                    .document(uidPartida)
+                    .set(partida.partidaToHash())
+                    .await()
             Resource.Success(true)
         }catch(e: Exception){
             Resource.Error(e.message)
@@ -40,19 +47,10 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
 
     override suspend fun updatePartida(partida: Partida): Resource<Partida>? {
         return try {
-            val result = database.collection("minhaQuadra").whereEqualTo("uidPartida",partida.uidPartida).get().await()
-            if(!result.isEmpty){
-                for (document in result.documents){
-                    val uid = document.id
-                    val docRef = database.collection("minhaQuadra").document(uid)
-                    docRef.update(partida.partidaToHash())
-                }
-
-                Resource.Success(partida)
-            }else{
-                Resource.Error("No data")
-            }
-
+            database.collection("partida")
+            .document(partida.uidPartida!!)
+            .update(partida.partidaToHash()).await()
+            Resource.Success(partida)
         }catch(e: Exception){
             Resource.Error(e.message)
         }
@@ -60,19 +58,7 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
 
     override suspend fun deletePartida(uidPartida: String): Resource<Boolean>? {
         return try {
-            val result = database.collection("minhaQuadra").whereEqualTo("uidPartida",uidPartida).orderBy("dataPartida",Query.Direction.DESCENDING).get().await()
-            if(!result.isEmpty){
-                for (document in result.documents){
-                    val uid = document.id
-                    val docRef = database.collection("minhaQuadra").document(uid)
-                    docRef.delete()
-                    break;
-                }
-                Resource.Success(true)
-
-            }else{
-                Resource.Error("No data")
-            }
+            database.collection("partida").document(uidPartida).delete().await()
             Resource.Success(true)
         }catch(e: Exception){
             Resource.Error(e.message)
@@ -82,7 +68,10 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
     override suspend fun getPartida(uidPartida: String): Resource<Partida>? {
         return try {
             var partida:Partida? = null
-            val result = database.collection("minhaQuadra").whereEqualTo("uidPartida",uidPartida).orderBy("dataPartida",Query.Direction.DESCENDING).get().await()
+            val result = database.collection("partida")
+                .whereEqualTo("uidPartida",uidPartida)
+                .orderBy("dataPartida",Query.Direction.DESCENDING)
+                .get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
                     partida = document.toObject(Partida::class.java)
@@ -102,9 +91,9 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
     override suspend fun getPartidas(): Resource<List<Partida>>? {
         return try {
             var partidas = mutableListOf<Partida>()
-            val result = database.collection("minhaQuadra")
-                .whereGreaterThanOrEqualTo("dataPartida",Date().time)
-                .whereLessThanOrEqualTo("dataPartida",Date().time).get().await()
+            val result = database.collection("partida")
+                .whereLessThanOrEqualTo("dataPartida",Date().time)
+                .get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
                     partidas.add(document.toObject(Partida::class.java)!!)
@@ -123,18 +112,18 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
     override suspend fun getPartidasPorData(data: Date): Resource<List<Partida>>? {
         return try {
             var partidas = mutableListOf<Partida>()
-            val result = database.collection("minhaQuadra")
+            val result = database.collection("partida")
                 .whereGreaterThanOrEqualTo("dataPartida",data.time)
                 .whereLessThanOrEqualTo("dataPartida",data.time).get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
-                    val mandante = database.collection("minhaQuadra")
-                        .whereEqualTo("uidMandante",document["uidMandante"])
-                        .get().await().documents.get(0).toObject(Equipe::class.java)
+                    val mandante = database.collection("equipe")
+                        .document(document["uidMandante"].toString())
+                        .get().await().toObject(Equipe::class.java)
 
-                    val adversario = database.collection("minhaQuadra")
-                        .whereEqualTo("uidAdversario",document["uidAdversario"])
-                        .get().await().documents.get(0).toObject(Equipe::class.java)
+                    val adversario = database.collection("equipe")
+                        .document(document["uidAdversario"].toString())
+                        .get().await().toObject(Equipe::class.java)
 
                     var partida = document.toObject(Partida::class.java)!!
                     partida.adversario = adversario
@@ -156,17 +145,17 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
     override suspend fun getPartidasPorEquipe(uidEquipe: String): Resource<List<Partida>>? {
         return try {
             var partidas = mutableListOf<Partida>()
-            val result = database.collection("minhaQuadra")
+            val result = database.collection("partida")
                 .whereEqualTo("uidMandante",uidEquipe).get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
-                    val mandante = database.collection("minhaQuadra")
-                        .whereEqualTo("uidMandante",document["uidMandante"])
-                        .get().await().documents.get(0).toObject(Equipe::class.java)
+                    val mandante = database.collection("equipe")
+                        .document(document["uidMandante"].toString())
+                        .get().await().toObject(Equipe::class.java)
 
-                    val adversario = database.collection("minhaQuadra")
-                        .whereEqualTo("uidAdversario",document["uidAdversario"])
-                        .get().await().documents.get(0).toObject(Equipe::class.java)
+                    val adversario = database.collection("equipe")
+                        .document(document["uidAdversario"].toString())
+                        .get().await().toObject(Equipe::class.java)
 
                     var partida = document.toObject(Partida::class.java)!!
                     partida.adversario = adversario

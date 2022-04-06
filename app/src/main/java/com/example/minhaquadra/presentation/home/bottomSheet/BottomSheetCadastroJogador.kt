@@ -72,6 +72,7 @@ class BottomSheetCadastroJogador(callback: Callback) : BottomSheetDialogFragment
         btnDeletar.setOnClickListener {
             if (jogador != null){
                 callback?.onDelete(jogador)
+                this.dismiss()
             }else{
                 Toast.makeText(requireContext(),"Não é possível deletar jogador não cadastrado", Toast.LENGTH_LONG).show()
             }

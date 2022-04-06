@@ -115,7 +115,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:hint="Dia da Partida"
-                android:inputType="number"
+                android:focusable="false"
+                android:inputType="date"
                 android:maxLines="8"
                 android:text=""
                 android:textColor="@android:color/black" />
@@ -134,7 +135,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
                 android:hint="Hora da Partida"
-                android:inputType="number"
+                android:focusable="false"
+                android:inputType="date"
                 android:maxLines="8"
                 android:text=""
                 android:textColor="@android:color/black" />

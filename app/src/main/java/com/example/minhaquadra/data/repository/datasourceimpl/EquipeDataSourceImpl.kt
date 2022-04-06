@@ -32,7 +32,9 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
                     nomeEquipe = nomeEquipe,
                     responsavelEquipe = responsavelEquipe,
                     situacaoTime = situacaoTime)
-                database.collection("minhaQuadra").document("equipe").set(equipe.equipeToHash()).await()
+                database.collection("equipe")
+                    .document(uidEquipe)
+                    .set(equipe.equipeToHash()).await()
                 Resource.Success(true)
             }else{
                 Resource.Error("Could not upload photo")
@@ -68,28 +70,17 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
 
     override suspend  fun updateEquipe(equipe: Equipe, bitmap: Bitmap?): Resource<Equipe>? {
         return try {
-            val result = database.collection("minhaQuadra").whereEqualTo("uidEquipe",equipe.uidEquipe).get().await()
-            if(!result.isEmpty){
-                if(bitmap != null){
-                    deletePhoto( "equipes/${equipe.pathFoto}.jpg")
-                    saveEquipePhoto(bitmap,equipe.uidEquipe!!)
-                    for (document in result.documents){
-                        val uid = document.id
-                        val docRef = database.collection("minhaQuadra").document(uid)
-                        docRef.update(equipe.equipeToHash())
-                    }
-                }else{
-                    for (document in result.documents){
-                        val uid = document.id
-                        val docRef = database.collection("minhaQuadra").document(uid)
-                        docRef.update(equipe.equipeToHash())
-                    }
-                }
-                Resource.Success(equipe)
-            }else{
-                Resource.Error("No data")
+            if(bitmap != null){
+                deletePhoto( "equipes/${equipe.pathFoto}.jpg")
+                saveEquipePhoto(bitmap,equipe.uidEquipe!!)
             }
 
+            database.collection("equipe")
+            .document(equipe.uidEquipe!!)
+            .update(equipe.equipeToHash())
+            .await()
+
+            Resource.Success(equipe)
         }catch(e: Exception){
             Resource.Error(e.message)
         }
@@ -97,8 +88,11 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
 
     override suspend fun deleteEquipe(uid: String): Resource<Boolean>? {
         return try {
-            val result = database.collection("minhaQuadra").whereEqualTo("uidEquipe",uid).orderBy("dataPartida",
-                Query.Direction.DESCENDING).get().await()
+            val result = database.collection("equipe")
+                .whereEqualTo("uidEquipe",uid)
+                .orderBy("dataPartida",Query.Direction.DESCENDING)
+                .get()
+                .await()
             if(!result.isEmpty){
                 for (document in result.documents){
                     deletePhoto("equipes/${document["pathFoto"].toString()}.jpg")
@@ -121,7 +115,7 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
     override suspend fun getEquipe(uidUsuario: String): Resource<Equipe>? {
         return try {
             var equipe: Equipe? = null
-            val result = database.collection("minhaQuadra")
+            val result = database.collection("equipe")
                 .whereEqualTo("responsavelEquipe",uidUsuario)
                 .get().await()
             if(!result.isEmpty){
@@ -144,8 +138,8 @@ class EquipeDataSourceImpl(private val database: FirebaseFirestore, private val 
     override suspend fun getEquipes(): Resource<ArrayList<Equipe>>? {
         return try {
             var equipes = ArrayList<Equipe>()
-            val result = database.collection("minhaQuadra")
-                .whereNotEqualTo("uidEquipe",null).get().await()
+            val result = database.collection("equipe")
+                        .whereNotEqualTo("uidEquipe",null).get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
                     equipes.add(document.toObject(Equipe::class.java)!!)

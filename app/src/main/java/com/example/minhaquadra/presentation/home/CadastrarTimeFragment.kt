@@ -116,6 +116,7 @@ class CadastrarTimeFragment : Fragment() {
                             .into(binding.imgEquipe);
 
                     }
+                    hideProgressBar()
                 }
                 is Resource.Error->{
                     hideProgressBar()
@@ -133,11 +134,12 @@ class CadastrarTimeFragment : Fragment() {
             when(response){
                 is Resource.Success->{
                     jogadorAdapter.differ.submitList(response.data!!.toList())
+                    hideProgressBar()
                 }
                 is Resource.Error->{
                     hideProgressBar()
                     response.message?.let { errorMessage->
-                        Toast.makeText(activity,"An error occured: $errorMessage", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(activity,"An error occured: $errorMessage", Toast.LENGTH_LONG).show()
                     }
                 }
                 is Resource.Loading->{
@@ -211,7 +213,8 @@ class CadastrarTimeFragment : Fragment() {
         viewModel.equipeRegistrada.observe(requireActivity(), Observer { response ->
             when(response){
                 is Resource.Success->{
-                    Snackbar.make(requireView(),"Cadastro Realizado", Snackbar.LENGTH_SHORT).show()
+                    Toast.makeText(activity,"Cadasdro Realizado", Toast.LENGTH_LONG).show()
+                    hideProgressBar()
                 }
                 is Resource.Error->{
                     hideProgressBar()
@@ -229,6 +232,7 @@ class CadastrarTimeFragment : Fragment() {
             when(response){
                 is Resource.Success->{
                     Toast.makeText(activity,"Cadasdro atualizado", Toast.LENGTH_LONG).show()
+                    hideProgressBar()
                 }
                 is Resource.Error->{
                     hideProgressBar()

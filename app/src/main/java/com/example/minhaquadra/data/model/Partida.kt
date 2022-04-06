@@ -12,6 +12,7 @@ data class Partida(
     val uidAdversario: String? = null,
     var adversario : Equipe? = null,
     val dataPartida: Long? = null,
+    val horaPartida: Long? = null,
     val duracaoPartida: String? = null
 ): Serializable{
     fun partidaToHash(): Map<String, Any?>{
@@ -31,12 +32,16 @@ data class Partida(
             partida.put("uidMandante", uidMandante)
         }
 
-        if(uidAdversario != null){
-            partida.put("uidAdversario", uidAdversario)
-        }
+
+        partida.put("uidAdversario", uidAdversario)
+
 
         if(dataPartida != null){
             partida.put("dataPartida", dataPartida)
+        }
+
+        if(horaPartida != null){
+            partida.put("horaPartida", horaPartida)
         }
 
         if(duracaoPartida != null){

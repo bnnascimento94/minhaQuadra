@@ -55,31 +55,11 @@ class HomeFragment : Fragment(){
         }
 
         binding.btnAdicional.setOnClickListener {
-            try {
-                viewModel.listarEquipes()
-                viewModel.equipeListada.observe(this, Observer { response ->
-                    when(response){
-                        is Resource.Success->{
-                            viewModel.equipes = response.data
-                            showDialogCadastrarPartida(response.data!!)
-                        }
-                        is Resource.Error->{
-                            hideProgressBar()
-                            response.message?.let { errorMessage->
-                                Toast.makeText(activity,"An error occured: $errorMessage", Toast.LENGTH_LONG).show()
-                            }
-                        }
-                        is Resource.Loading->{
-                            showProgressBar()
-                        }
-                    }
-                })
-
-
-            }catch (e: Exception){
-                Log.i("teste", e.message!!)
+            if(viewModel.equipe != null && viewModel.equipes != null && !viewModel.equipes!!.isEmpty()){
+                showDialogCadastrarPartida(viewModel.equipes!!)
+            }else{
+                Snackbar.make(requireView(),"Não há equipes para partidas", Snackbar.LENGTH_LONG).show()
             }
-
         }
 
         return binding.root
@@ -94,9 +74,10 @@ class HomeFragment : Fragment(){
                 uidMandante: String?,
                 uidAdversario: String?,
                 dataPartida: Long?,
+                horaPartida: Long?,
                 duracaoPartida: String
             ) {
-                viewModel.registrarPartida(reservaQuadra, confronto, uidMandante, uidAdversario, dataPartida, duracaoPartida)
+                viewModel.registrarPartida(reservaQuadra, confronto, uidMandante, uidAdversario, dataPartida,horaPartida, duracaoPartida)
                 viewModel.partidaRegistrada.observe(requireActivity(), Observer { response ->
                     when(response){
                         is Resource.Success->{
@@ -133,22 +114,8 @@ class HomeFragment : Fragment(){
             }
 
 
-            override fun onDeletar(uidEquipe: String) {
-                viewModel.deletarEquipe(uidEquipe)
-                viewModel.equipeDeletada.observe(requireActivity(), Observer { response ->
-                    when(response){
-                        is Resource.Success->{
-                            Snackbar.make(requireView(),"Equipe Deletada", Snackbar.LENGTH_LONG).show()
-                        }
-                        is Resource.Error->{
-                            hideProgressBar()
-                            Snackbar.make(requireView(),response.message.toString(), Snackbar.LENGTH_LONG).show()
-                        }
-                        is Resource.Loading->{
-                            showProgressBar()
-                        }
-                    }
-                })
+            override fun onDeletar(uidPartida: String) {
+                viewModel.deletarPartida(uidPartida)
             }
 
 
@@ -168,10 +135,23 @@ class HomeFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         viewModel = (activity as HomeActivity).viewModel
-
         viewModel.getEquipe(preferencias.usuario!!)
+        viewModel.listarEquipes()
 
-
+        viewModel.equipeListada.observe(this, Observer { response ->
+            when(response){
+                is Resource.Success->{
+                    hideProgressBar()
+                    viewModel.equipes = response.data
+                }
+                is Resource.Error->{
+                    hideProgressBar()
+                }
+                is Resource.Loading->{
+                    showProgressBar()
+                }
+            }
+        })
         viewModel.equipeBuscada.observe(this, Observer { response ->
             when(response){
                 is Resource.Success->{
@@ -200,10 +180,10 @@ class HomeFragment : Fragment(){
                 }
             }
         })
-
         viewModel.partidaEquipeListada.observe(this, Observer { response ->
             when(response){
                 is Resource.Success->{
+                    hideProgressBar()
                     partidasAdapter.load(response.data)
                 }
                 is Resource.Error->{
@@ -216,7 +196,20 @@ class HomeFragment : Fragment(){
             }
         })
 
-
+        viewModel.partidaDeletada.observe(this, Observer { response ->
+            when(response){
+                is Resource.Success->{
+                    hideProgressBar()
+                    viewModel.listarPartidaPorEquipe(viewModel.equipe!!.uidEquipe!!)
+                }
+                is Resource.Error->{
+                    hideProgressBar()
+                }
+                is Resource.Loading->{
+                    showProgressBar()
+                }
+            }
+        })
 
     }
 

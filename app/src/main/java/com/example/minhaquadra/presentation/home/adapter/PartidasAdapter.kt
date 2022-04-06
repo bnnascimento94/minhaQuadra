@@ -23,6 +23,7 @@ class PartidasAdapter(): RecyclerView.Adapter<PartidasAdapter.MenuViewHolder>() 
 
     fun load(partidas: List<Partida>?){
         this.partidas = partidas!!
+        this.notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder {
@@ -35,12 +36,25 @@ class PartidasAdapter(): RecyclerView.Adapter<PartidasAdapter.MenuViewHolder>() 
 
     override fun onBindViewHolder(holder: MenuViewHolder, position: Int) {
         val partida = partidas!![position]
-        val d = Date(partida.dataPartida!! * 1000)
-        val f: DateFormat = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
+        val d = Date(partida.dataPartida!!)
+        val horaFormat: DateFormat = SimpleDateFormat("HH:mm")
+        var h: String? = partida.horaPartida?.let {
+            val date  = Date(partida.horaPartida!!)
+            "Às "+horaFormat.format(date).toString()
+        }
+        if(h == null){
+            h = ""
+        }
+        val f: DateFormat = SimpleDateFormat("dd/MM/yyyy")
         val dataFormatada = f.format(d)
+        var confronto: String? = "Reserva de Quadra"
+        partida.adversario?.let {
+            confronto = "${partida.mandante?.nomeEquipe} x ${partida.adversario?.nomeEquipe}"
+        }
 
-        holder.homeListItemBinding.txtDataDoJogo.text = dataFormatada
-        holder.homeListItemBinding.txtTimes.text = "${partida.mandante?.nomeEquipe} x ${partida.adversario?.nomeEquipe}"
+        holder.homeListItemBinding.txtDuracaoPartida.text = partida.duracaoPartida
+        holder.homeListItemBinding.txtDataDoJogo.text = "$dataFormatada $h"
+        holder.homeListItemBinding.txtTimes.text = confronto
     }
 
     override fun getItemCount(): Int {
