@@ -1,4 +1,4 @@
-package com.example.minhaquadra.presentation.home
+package com.example.minhaquadra.presentation.home.bottomSheet
 
 import android.Manifest
 import android.app.Activity
@@ -17,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.drawToBitmap
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,19 +28,21 @@ import com.example.minhaquadra.data.model.Jogador
 import com.example.minhaquadra.data.util.ImageSaver
 import com.example.minhaquadra.data.util.Preferencias
 import com.example.minhaquadra.data.util.Resource
-import com.example.minhaquadra.databinding.FragmentCadastrarTimeBinding
+import com.example.minhaquadra.databinding.BottomSheetCadastrarTimeBinding
+import com.example.minhaquadra.presentation.home.HomeActivity
+import com.example.minhaquadra.presentation.home.HomeViewModel
 import com.example.minhaquadra.presentation.home.adapter.JogadorAdapter
-import com.example.minhaquadra.presentation.home.bottomSheet.BottomSheetCadastroJogador
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CadastrarTimeFragment : Fragment() {
-
-    lateinit var binding: FragmentCadastrarTimeBinding
+class BottomSheetCadastroTime: BottomSheetDialogFragment() {
 
     private lateinit var viewModel: HomeViewModel
+
+    lateinit var binding: BottomSheetCadastrarTimeBinding
 
     @Inject
     lateinit var jogadorAdapter: JogadorAdapter
@@ -64,12 +65,14 @@ class CadastrarTimeFragment : Fragment() {
     }
 
 
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_cadastrar_time, container, false)
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_cadastrar_time, container, false)
         viewModel = (activity as HomeActivity).viewModel
         initRecyclerView()
 
@@ -151,9 +154,9 @@ class CadastrarTimeFragment : Fragment() {
         viewModel.jogadorDeletado.observe(requireActivity(), Observer { response ->
             when(response){
                 is Resource.Success->{
-                   if(response.data!! && viewModel.equipe != null){
-                       viewModel.listarJogador(viewModel.equipe?.uidEquipe!!)
-                   }
+                    if(response.data!! && viewModel.equipe != null){
+                        viewModel.listarJogador(viewModel.equipe?.uidEquipe!!)
+                    }
                 }
                 is Resource.Error->{
                     hideProgressBar()
@@ -169,11 +172,11 @@ class CadastrarTimeFragment : Fragment() {
 
         binding.adicionarFoto.setOnClickListener {
             val permissionCheck = ContextCompat.checkSelfPermission(
-                requireContext(),Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
             val checkCameraPermission =
                 ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
             val permissionRead = ContextCompat.checkSelfPermission(
-                requireContext(),Manifest.permission.READ_EXTERNAL_STORAGE)
+                requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
             if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(
                     requireActivity(), arrayOf(
@@ -231,7 +234,7 @@ class CadastrarTimeFragment : Fragment() {
         viewModel.equipeAtualizada.observe(requireActivity(),Observer{ response ->
             when(response){
                 is Resource.Success->{
-                    Toast.makeText(activity,"Cadasdro atualizado", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(),"Cadasdro atualizado", Toast.LENGTH_LONG).show()
                     hideProgressBar()
                 }
                 is Resource.Error->{
@@ -269,6 +272,8 @@ class CadastrarTimeFragment : Fragment() {
             }
         }
 
+
+
         return binding.root
     }
 
@@ -294,7 +299,7 @@ class CadastrarTimeFragment : Fragment() {
         }
     }
 
-    private fun showDialogCadastrarJogador(equipe:Equipe, jogador: Jogador? = null){
+    private fun showDialogCadastrarJogador(equipe: Equipe, jogador: Jogador? = null){
         val bottomSheetCadastroJogador = BottomSheetCadastroJogador(object:
             BottomSheetCadastroJogador.Callback{
 

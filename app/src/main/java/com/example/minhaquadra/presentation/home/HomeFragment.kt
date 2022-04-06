@@ -20,6 +20,7 @@ import com.example.minhaquadra.data.util.Resource
 import com.example.minhaquadra.databinding.FragmentHomeBinding
 import com.example.minhaquadra.presentation.home.adapter.PartidasAdapter
 import com.example.minhaquadra.presentation.home.bottomSheet.BottomSheetCadastrarPartida
+import com.example.minhaquadra.presentation.home.bottomSheet.BottomSheetCadastroTime
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -51,7 +52,9 @@ class HomeFragment : Fragment(){
 
 
         binding.btnEditTime.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_homeFragment_to_cadastrarTimeFragment)
+            //view?.findNavController()?.navigate(R.id.action_homeFragment_to_cadastrarTimeFragment)
+            val bottomSheetCadastroTime = BottomSheetCadastroTime()
+            bottomSheetCadastroTime.show(activity?.supportFragmentManager!!, "tag")
         }
 
         binding.btnAdicional.setOnClickListener {

@@ -11,4 +11,6 @@
     <color name="main_color">#1CB5E0</color>
     <color name="yellow">#FFEB3B</color>
     <color name="buttons_color">#6B61D7</color>
+    <color name="example_7_white">#D9FFFFFF</color>
+    <color name="example_7_yellow">#FFEB3B</color>
 </resources>

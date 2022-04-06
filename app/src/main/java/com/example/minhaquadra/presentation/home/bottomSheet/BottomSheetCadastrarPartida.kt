@@ -80,12 +80,12 @@ class BottomSheetCadastrarPartida(callback: Callback) : BottomSheetDialogFragmen
             }
         }
 
-        if(bundle!!.containsKey("uidEquipe")){
-            uidEquipe = bundle!!.getString("uidEquipe")
+        if(bundle.containsKey("uidEquipe")){
+            uidEquipe = bundle.getString("uidEquipe")
         }
 
-        if(bundle!!.containsKey("partida")){
-            partida = bundle!!.getSerializable("partida") as Partida?
+        if(bundle.containsKey("partida")){
+            partida = bundle.getSerializable("partida") as Partida?
             partida?.let {
                 txtHoraPartida.setText(horaFormato.format(Date(partida.horaPartida!!)))
                 txtDiaPartida.setText(sdf.format(Date(partida.dataPartida!!)))

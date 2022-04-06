@@ -11,9 +11,9 @@
     android:icon="@drawable/ic_agenda"
     android:title="Agenda" />
 <item
-    android:id="@+id/matchesFragment"
+    android:id="@+id/exit"
     android:enabled="true"
-    android:icon="@drawable/ic_partidas"
-    android:title="Partidas do Dia"/>
+    android:icon="@drawable/ic_exit"
+    android:title="Sair"/>
 
 </menu>

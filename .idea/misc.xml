@@ -19,18 +19,25 @@
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/fragment_register.xml" value="0.19791666666666666" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/home_list_item.xml" value="0.22" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/jogador_list_item.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/layout/partidas_agendadas_list_item.xml" value="0.20108695652173914" />
         <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/menu/home_menu.xml" value="0.19947916666666668" />
-        <entry key="..\:/Users/bnascimento/StudioProjects/minhaQuadra/app/src/main/res/xml/provider_paths.xml" value="0.7302631578947368" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/drawable/background_splash.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/drawable/ic_agenda.xml" value="0.2361111111111111" />
+        <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/drawable/ic_exit.xml" value="0.2361111111111111" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/drawable/rectangle_rounded.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/activity_main.xml" value="0.136" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/activity_splash.xml" value="0.152" />
+        <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/bottom_sheet_cadastrar_time.xml" value="0.25" />
+        <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/bottom_sheet_cadastro_jogador.xml" value="0.17135416666666667" />
+        <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/calendar_day.xml" value="0.15677083333333333" />
+        <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/fragment_agenda.xml" value="0.264" />
+        <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/fragment_cadastrar_time.xml" value="0.17135416666666667" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/fragment_forgot_password.xml" value="0.25" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/fragment_login.xml" value="0.25" />
+        <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/fragment_matches.xml" value="0.15677083333333333" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/fragment_register.xml" value="0.25" />
+        <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/layout/partidas_agendadas_list_item.xml" value="0.17962962962962964" />
         <entry key="..\:/Users/bruno/AndroidStudioProjects/vullpes_entregador/MinhaQuadra/app/src/main/res/menu/home_menu.xml" value="0.25" />
       </map>
     </option>

@@ -11,28 +11,13 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_matchesFragment"
-            app:destination="@id/matchesFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_agendaFragment"
             app:destination="@id/agendaFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_cadastrarTimeFragment"
-            app:destination="@id/cadastrarTimeFragment" />
     </fragment>
     <fragment
         android:id="@+id/agendaFragment"
         android:name="com.example.minhaquadra.presentation.home.AgendaFragment"
         android:label="fragment_agenda"
         tools:layout="@layout/fragment_agenda" />
-    <fragment
-        android:id="@+id/matchesFragment"
-        android:name="com.example.minhaquadra.presentation.home.MatchesFragment"
-        android:label="fragment_matches"
-        tools:layout="@layout/fragment_matches" />
-    <fragment
-        android:id="@+id/cadastrarTimeFragment"
-        android:name="com.example.minhaquadra.presentation.home.CadastrarTimeFragment"
-        android:label="fragment_cadastrar_time"
-        tools:layout="@layout/fragment_cadastrar_time" />
+
 </navigation>

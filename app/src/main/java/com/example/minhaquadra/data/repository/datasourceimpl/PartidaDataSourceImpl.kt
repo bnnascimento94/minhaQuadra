@@ -8,6 +8,7 @@ import com.example.minhaquadra.data.util.Resource
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
+import java.text.SimpleDateFormat
 import java.util.*
 
 class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDataSource {
@@ -91,12 +92,31 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
     override suspend fun getPartidas(): Resource<List<Partida>>? {
         return try {
             var partidas = mutableListOf<Partida>()
+            val dateFormat = "dd/MM/yyyy" // mention the format you need
+            val sdf = SimpleDateFormat(dateFormat)
+            val stringDate = sdf.format(Date())
+            val dateFormatado = sdf.parse(stringDate).time
+
+
             val result = database.collection("partida")
-                .whereLessThanOrEqualTo("dataPartida",Date().time)
+                .whereEqualTo("dataPartida",dateFormatado)
                 .get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
-                    partidas.add(document.toObject(Partida::class.java)!!)
+
+                    val mandante = database.collection("equipe")
+                        .document(document["uidMandante"].toString())
+                        .get().await().toObject(Equipe::class.java)
+
+                    val adversario = database.collection("equipe")
+                        .document(document["uidAdversario"].toString())
+                        .get().await().toObject(Equipe::class.java)
+
+                    var partida = document.toObject(Partida::class.java)!!
+                    partida.adversario = adversario
+                    partida.mandante = mandante
+
+                    partidas.add(partida)
                 }
                 Resource.Success(partidas)
 
@@ -112,9 +132,13 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
     override suspend fun getPartidasPorData(data: Date): Resource<List<Partida>>? {
         return try {
             var partidas = mutableListOf<Partida>()
+            val dateFormat = "dd/MM/yyyy" // mention the format you need
+            val sdf = SimpleDateFormat(dateFormat)
+            val stringDate = sdf.format(data)
+            val dateFormatado = sdf.parse(stringDate).time
+
             val result = database.collection("partida")
-                .whereGreaterThanOrEqualTo("dataPartida",data.time)
-                .whereLessThanOrEqualTo("dataPartida",data.time).get().await()
+                .whereEqualTo("dataPartida",dateFormatado).get().await()
             if(!result.isEmpty){
                 for (document in result.documents){
                     val mandante = database.collection("equipe")
@@ -134,7 +158,7 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
                 Resource.Success(partidas)
 
             }else{
-                Resource.Error("No data")
+                Resource.Success(partidas)
             }
 
         }catch(e: Exception){
@@ -157,7 +181,7 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
                         .document(document["uidAdversario"].toString())
                         .get().await().toObject(Equipe::class.java)
 
-                    var partida = document.toObject(Partida::class.java)!!
+                    var partida : Partida = document.toObject(Partida::class.java)!!
                     partida.adversario = adversario
                     partida.mandante = mandante
 
@@ -172,5 +196,10 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
         }catch(e: Exception){
             Resource.Error(e.message)
         }
+    }
+
+
+    fun checarSeHaPartidaNoMesmoHoario(){
+
     }
 }
