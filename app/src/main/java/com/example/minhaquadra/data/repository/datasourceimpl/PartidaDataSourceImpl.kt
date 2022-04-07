@@ -9,9 +9,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalAmount
+import java.time.temporal.TemporalUnit
 import java.util.*
 
 class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDataSource {
+
+    private val hourFormatter = DateTimeFormatter.ofPattern("HH:mm")
+    private val fullDateFormatter = DateTimeFormatter.ofPattern("dd/MM/YYYY")
 
     override suspend fun registerPartida(
         reservaQuadra: Boolean?,
@@ -36,11 +44,16 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
                 duracaoPartida = duracaoPartida
             )
 
-            database.collection("partida")
+            if(checarSeHaPartidaNoMesmoHorario(partida)){
+                database.collection("partida")
                     .document(uidPartida)
                     .set(partida.partidaToHash())
                     .await()
-            Resource.Success(true)
+                Resource.Success(true)
+            }else{
+                Resource.Error("Horários de Partidas Conflitantes")
+            }
+
         }catch(e: Exception){
             Resource.Error(e.message)
         }
@@ -48,10 +61,15 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
 
     override suspend fun updatePartida(partida: Partida): Resource<Partida>? {
         return try {
-            database.collection("partida")
-            .document(partida.uidPartida!!)
-            .update(partida.partidaToHash()).await()
-            Resource.Success(partida)
+            if(checarSeHaPartidaNoMesmoHorario(partida)){
+                database.collection("partida")
+                    .document(partida.uidPartida!!)
+                    .update(partida.partidaToHash()).await()
+                Resource.Success(partida)
+            }else{
+                Resource.Error("Horários de Partidas Conflitantes")
+            }
+
         }catch(e: Exception){
             Resource.Error(e.message)
         }
@@ -198,8 +216,60 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
         }
     }
 
+    suspend fun checarSeHaPartidaNoMesmoHorario(partida:Partida): Boolean{
+        val hourFormat = "HH:mm"
+        val dateFormat = "dd/MM/yyyy" // mention the format you need
+        val hourf = SimpleDateFormat(hourFormat)
+        val sdf = SimpleDateFormat(dateFormat)
+        val stringDate = sdf.format(Date(partida.dataPartida as Long))
+        val dateFormatado = sdf.parse(stringDate).time
+        var temPartidaNoMesmoHorario = false;
 
-    fun checarSeHaPartidaNoMesmoHoario(){
 
+        val result = database.collection("partida")
+            .whereEqualTo("dataPartida",dateFormatado)
+            .get().await()
+
+        if(!result.isEmpty){
+            for (document in result.documents){
+             var horaPartidaSalvaInicio = LocalDate.parse(hourf.format(Date(document["horaPartida"] as Long)),hourFormatter)
+             var horaPartidaInicio = LocalDate.parse(hourf.format(Date(partida.dataPartida!!)),hourFormatter)
+             var horaPartidaSalvaFim: LocalDate? = null
+             var horaPartidaFim : LocalDate? = null
+                    when(partida.duracaoPartida!!){
+                        "30 Min" ->{
+                            horaPartidaFim = horaPartidaInicio.plus(30,ChronoUnit.MINUTES)
+                            horaPartidaSalvaFim = horaPartidaSalvaInicio.plus(30,ChronoUnit.MINUTES)
+                        }
+                        "45 min" ->{
+                            horaPartidaFim = horaPartidaInicio.plus(45,ChronoUnit.MINUTES)
+                            horaPartidaSalvaFim = horaPartidaSalvaInicio.plus(45,ChronoUnit.MINUTES)
+                        }
+                        "1 hora" ->{
+                            horaPartidaFim = horaPartidaInicio.plus(1,ChronoUnit.HOURS)
+                            horaPartidaSalvaFim = horaPartidaSalvaInicio.plus(1,ChronoUnit.HOURS)
+                        }
+                        "2 Horas" ->{
+                            horaPartidaFim = horaPartidaInicio.plus(1,ChronoUnit.HOURS)
+                            horaPartidaSalvaFim = horaPartidaSalvaInicio.plus(2,ChronoUnit.HOURS)
+                        }
+                    }
+
+                if(horaPartidaInicio.isAfter(horaPartidaSalvaInicio) ||
+                    horaPartidaInicio.isBefore(horaPartidaSalvaFim) ||
+                    horaPartidaFim!!.isAfter(horaPartidaSalvaInicio)){
+                    temPartidaNoMesmoHorario = partida.uidPartida != null && !partida.uidPartida.equals(document["uidPartida"])
+                }
+
+                if (temPartidaNoMesmoHorario) break else continue
+
+            }
+
+            return temPartidaNoMesmoHorario
+
+        }else{
+            return false
+        }
     }
+
 }
