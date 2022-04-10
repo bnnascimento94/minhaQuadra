@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import br.com.sapereaude.maskedEditText.MaskedEditText
 import com.example.minhaquadra.R
 import com.example.minhaquadra.data.model.Jogador
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -36,7 +37,7 @@ class BottomSheetCadastroJogador(callback: Callback) : BottomSheetDialogFragment
         val btnDeletar: MaterialButton = view.findViewById(R.id.btnDelete)
 
         val txtNomeJogador: TextInputEditText = view.findViewById(R.id.txtNomeJogador)
-        val txtCpf: TextInputEditText = view.findViewById(R.id.txtCpf)
+        val txtCpf: MaskedEditText = view.findViewById(R.id.txtCpf)
 
         val bundle = arguments
         var uidEquipe: String? = null

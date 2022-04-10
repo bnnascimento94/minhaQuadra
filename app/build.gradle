@@ -108,6 +108,8 @@ dependencies {
     //annotation processor
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
+    implementation 'ru.egslava:MaskedEditText:1.0.5'
+
 
 
 

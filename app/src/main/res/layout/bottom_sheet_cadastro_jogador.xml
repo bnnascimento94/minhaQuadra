@@ -75,15 +75,19 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
+
+
+        <br.com.sapereaude.maskedEditText.MaskedEditText
             android:id="@+id/txtCpf"
             android:layout_width="match_parent"
             android:layout_height="54dp"
+            android:inputType="number"
+            android:typeface="monospace"
+            app:allowed_chars="1234567890"
+            app:mask="###.###.###-##"
             android:hint="Cpf Jogador"
-            android:inputType="text"
-            android:maxLines="8"
-            android:text=""
-            android:textColor="@android:color/black" />
+            app:keep_hint="true"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
 

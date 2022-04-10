@@ -12,8 +12,11 @@ import com.example.minhaquadra.databinding.ActivitySplashBinding
 import com.example.minhaquadra.presentation.home.HomeActivity
 import com.example.minhaquadra.presentation.login.LoginActivity
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     @Inject
@@ -29,9 +32,7 @@ class SplashActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,R.layout.activity_splash)
 
         splashViewModel = ViewModelProvider(this,factory).get(SplashViewModel::class.java)
-
-        splashViewModel.verifyConnectedUser()
-
+        splashViewModel.setSplashTimer()
         splashViewModel.splashTimer.observe(this, Observer { timerFinalizado->
             if(timerFinalizado){
                 splashViewModel.connectedUser.observe(this, Observer {response ->
@@ -40,18 +41,21 @@ class SplashActivity : AppCompatActivity() {
                         is Resource.Error ->{
                             if(response.message.equals("")){
                                 startActivity(Intent(this, LoginActivity::class.java))
+                                finish()
                             }else{
                                 Snackbar.make(binding.root, response.message.toString(),Snackbar.LENGTH_LONG).show()
                             }
                         }
                         is Resource.Success ->{
                             startActivity(Intent(this, HomeActivity::class.java))
+                            finish()
                         }
                     }
                 })
             }
         })
     }
+
 
 
 }

@@ -75,6 +75,7 @@ class LoginFragment : Fragment() {
                     binding.progress.visibility = View.GONE
                     preferencias.salvarDados(response.data!!)
                     startActivity(Intent(activity, HomeActivity::class.java))
+                    requireActivity().finish()
                 }
             }
         })

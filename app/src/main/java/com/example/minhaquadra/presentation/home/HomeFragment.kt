@@ -103,6 +103,7 @@ class HomeFragment : Fragment(){
                 viewModel.partidaAtualizada.observe(requireActivity(), Observer { response ->
                     when(response){
                         is Resource.Success->{
+                            viewModel.listarEquipes()
                             Snackbar.make(requireView(),"Partida Atualizada", Snackbar.LENGTH_LONG).show()
                         }
                         is Resource.Error->{

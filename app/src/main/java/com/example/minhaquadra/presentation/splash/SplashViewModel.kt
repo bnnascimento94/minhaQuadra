@@ -15,13 +15,14 @@ class SplashViewModel(private val verifyUserUsercase: VerifyUserUsercase): ViewM
     val connectedUser: MutableLiveData<Resource<User>> = MutableLiveData()
     val splashTimer: MutableLiveData<Boolean> = MutableLiveData()
 
-    fun verifyConnectedUser() = viewModelScope.launch {
+    suspend fun verifyConnectedUser() {
         connectedUser.postValue(verifyUserUsercase.execute())
     }
 
     fun setSplashTimer() = viewModelScope.launch {
         delay(5000)
         splashTimer.postValue(true)
+        verifyConnectedUser()
     }
 
 }

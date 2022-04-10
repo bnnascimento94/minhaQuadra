@@ -23,18 +23,19 @@
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:exported="false" />
-        <activity
-            android:name=".presentation.login.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:exported="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
+        </activity>
+        <activity
+            android:name=".presentation.login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

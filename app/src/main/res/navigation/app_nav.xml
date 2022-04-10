@@ -12,12 +12,16 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_agendaFragment"
-            app:destination="@id/agendaFragment" />
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/agendaFragment"
         android:name="com.example.minhaquadra.presentation.home.AgendaFragment"
         android:label="fragment_agenda"
-        tools:layout="@layout/fragment_agenda" />
+        tools:layout="@layout/fragment_agenda" >
+        <action
+            android:id="@+id/action_agendaFragment_to_homeFragment"
+            app:destination="@id/agendaFragment" />
+    </fragment>
 
 </navigation>

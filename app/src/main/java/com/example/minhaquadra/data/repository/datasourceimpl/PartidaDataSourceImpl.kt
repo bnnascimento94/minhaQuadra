@@ -45,13 +45,13 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
             )
 
             if(checarSeHaPartidaNoMesmoHorario(partida)){
+                Resource.Error("Horários de Partidas Conflitantes")
+            }else{
                 database.collection("partida")
                     .document(uidPartida)
                     .set(partida.partidaToHash())
                     .await()
                 Resource.Success(true)
-            }else{
-                Resource.Error("Horários de Partidas Conflitantes")
             }
 
         }catch(e: Exception){

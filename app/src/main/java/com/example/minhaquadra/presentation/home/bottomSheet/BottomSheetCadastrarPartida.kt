@@ -95,6 +95,9 @@ class BottomSheetCadastrarPartida(callback: Callback) : BottomSheetDialogFragmen
                 txtPeriodo.setText(partida!!.duracaoPartida,false);
                 chkBoxConfronto.isChecked = partida?.confronto!!
                 chkBoxReserva.isChecked = partida?.reservaQuadra!!
+                if(partida?.reservaQuadra!!){
+                    layoutAdversario.visibility = View.GONE
+                }
             }
         }
 
@@ -111,7 +114,14 @@ class BottomSheetCadastrarPartida(callback: Callback) : BottomSheetDialogFragmen
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            txtDiaPartida.setText(sdf.format(cal.time))
+            val dateFormatted = sdf.parse(sdf.format(Date()))
+
+            if(dateFormatted.before(cal.time)){
+                txtDiaPartida.setText(sdf.format(cal.time))
+            }else{
+                Toast.makeText(requireContext(),"Data anterior a atual", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         txtDiaPartida.setOnClickListener {
@@ -203,4 +213,6 @@ class BottomSheetCadastrarPartida(callback: Callback) : BottomSheetDialogFragmen
 
 
 }
+
+
 
