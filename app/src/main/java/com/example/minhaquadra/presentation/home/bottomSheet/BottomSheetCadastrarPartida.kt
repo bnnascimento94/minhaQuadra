@@ -139,9 +139,16 @@ class BottomSheetCadastrarPartida(callback: Callback) : BottomSheetDialogFragmen
 
         mTimePicker = TimePickerDialog(requireContext(), object : TimePickerDialog.OnTimeSetListener {
             override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-                txtHoraPartida.setText(String.format("%d:%d", hourOfDay, minute))
+                val dateFormatted = sdf.parse(sdf.format(Date()))
+
+                if(dateFormatted.before(cal.time) && hourOfDay > hour){
+                    txtHoraPartida.setText(String.format("%d:%d", hourOfDay, minute))
+                }else{
+                    Toast.makeText(requireContext(),"Data anterior a atual", Toast.LENGTH_SHORT).show()
+                }
+
             }
-        }, hour, minute, false)
+        }, hour, minute, true)
 
         txtHoraPartida.setOnClickListener {
             mTimePicker.show()

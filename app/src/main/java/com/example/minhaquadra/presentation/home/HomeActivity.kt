@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.minhaquadra.R
+import com.example.minhaquadra.data.util.Preferencias
 import com.example.minhaquadra.databinding.ActivityHomeBinding
 import com.example.minhaquadra.presentation.login.LoginActivity
 import com.example.minhaquadra.presentation.login.LoginViewModel
@@ -27,6 +28,9 @@ class HomeActivity : AppCompatActivity() {
 
     @Inject
     lateinit var factory: HomeViewModelFactory
+
+    @Inject
+    lateinit var preferencias: Preferencias
 
     lateinit var viewModel: HomeViewModel
 
@@ -59,6 +63,7 @@ class HomeActivity : AppCompatActivity() {
                     true
                 }
                 R.id.exit -> {
+                    preferencias.clear()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                     true

@@ -88,7 +88,7 @@ class HomeFragment : Fragment(){
                         }
                         is Resource.Error->{
                             hideProgressBar()
-                            Snackbar.make(requireView(),response.message.toString(), Snackbar.LENGTH_LONG).show()
+                            Toast.makeText(requireContext(),response.message.toString(), Toast.LENGTH_LONG).show()
                         }
                         is Resource.Loading->{
                             showProgressBar()

@@ -231,23 +231,7 @@ class BottomSheetCadastroTime: BottomSheetDialogFragment() {
             }
         })
 
-        viewModel.equipeAtualizada.observe(requireActivity(),Observer{ response ->
-            when(response){
-                is Resource.Success->{
-                    Toast.makeText(requireContext(),"Cadasdro atualizado", Toast.LENGTH_LONG).show()
-                    hideProgressBar()
-                }
-                is Resource.Error->{
-                    hideProgressBar()
-                    response.message?.let { errorMessage->
-                        Toast.makeText(activity,"An error occured: $errorMessage", Toast.LENGTH_LONG).show()
-                    }
-                }
-                is Resource.Loading->{
-                    showProgressBar()
-                }
-            }
-        })
+
 
         binding.btnSalvar.setOnClickListener {
             val bitmap: Bitmap = binding.imgEquipe.drawToBitmap()

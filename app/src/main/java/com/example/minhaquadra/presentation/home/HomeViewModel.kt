@@ -42,7 +42,6 @@ class HomeViewModel(
     val equipeDeletada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val equipeListada: MutableLiveData<Resource<ArrayList<Equipe>>> = MutableLiveData()
     val equipeRegistrada: MutableLiveData<Resource<Boolean>> = MutableLiveData()
-    val equipeAtualizada: MutableLiveData<Resource<Equipe>> = MutableLiveData()
 
     val jogadorDeletado: MutableLiveData<Resource<Boolean>> = MutableLiveData()
     val jogadorListado: MutableLiveData<Resource<List<Jogador>>> = MutableLiveData()
@@ -79,7 +78,7 @@ class HomeViewModel(
     }
 
     fun atualizarEquipe(foto: Bitmap?,pathFoto:String,uidEquipe: String, nomeEquipe: String,responsavelEquipe: String?, situacaoTime: Boolean) = viewModelScope.launch(Dispatchers.IO) {
-        equipeAtualizada.postValue(Resource.Loading())
+        equipeBuscada.postValue(Resource.Loading())
         val equipe = Equipe(
             uidEquipe = uidEquipe,
             pathFoto = pathFoto,
@@ -88,7 +87,7 @@ class HomeViewModel(
             situacaoTime = situacaoTime
         )
 
-        equipeAtualizada.postValue(updateEquipeUsercase.execute(equipe, foto))
+        equipeBuscada.postValue(updateEquipeUsercase.execute(equipe, foto))
     }
 
 

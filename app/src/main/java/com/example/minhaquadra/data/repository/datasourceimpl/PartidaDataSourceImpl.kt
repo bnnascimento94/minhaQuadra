@@ -10,6 +10,8 @@ import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalAmount
@@ -18,8 +20,7 @@ import java.util.*
 
 class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDataSource {
 
-    private val hourFormatter = DateTimeFormatter.ofPattern("HH:mm")
-    private val fullDateFormatter = DateTimeFormatter.ofPattern("dd/MM/YYYY")
+    private val hourFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
     override suspend fun registerPartida(
         reservaQuadra: Boolean?,
@@ -217,7 +218,7 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
     }
 
     suspend fun checarSeHaPartidaNoMesmoHorario(partida:Partida): Boolean{
-        val hourFormat = "HH:mm"
+        val hourFormat = "HH:mm:ss"
         val dateFormat = "dd/MM/yyyy" // mention the format you need
         val hourf = SimpleDateFormat(hourFormat)
         val sdf = SimpleDateFormat(dateFormat)
@@ -232,10 +233,11 @@ class PartidaDataSourceImpl(private val database: FirebaseFirestore): PartidaDat
 
         if(!result.isEmpty){
             for (document in result.documents){
-             var horaPartidaSalvaInicio = LocalDate.parse(hourf.format(Date(document["horaPartida"] as Long)),hourFormatter)
-             var horaPartidaInicio = LocalDate.parse(hourf.format(Date(partida.dataPartida!!)),hourFormatter)
-             var horaPartidaSalvaFim: LocalDate? = null
-             var horaPartidaFim : LocalDate? = null
+             val hora =   hourf.format(Date(document["horaPartida"] as Long))
+             var horaPartidaSalvaInicio = LocalTime.parse(hora,DateTimeFormatter.ISO_TIME)
+             var horaPartidaInicio = LocalTime.parse(hourf.format(Date(partida.horaPartida!!)),DateTimeFormatter.ISO_TIME)
+             var horaPartidaSalvaFim: LocalTime? = null
+             var horaPartidaFim : LocalTime? = null
                     when(partida.duracaoPartida!!){
                         "30 Min" ->{
                             horaPartidaFim = horaPartidaInicio.plus(30,ChronoUnit.MINUTES)
