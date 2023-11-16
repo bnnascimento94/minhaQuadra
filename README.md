@@ -1,7 +1,9 @@
 # Minha Quadra
-App to schedule the use of the pitch, each team has an manager who require the usage of the pitch on some date and which team they are going to play with. The owner of the pitch has the control of whom is playing on th pitch on the selected day in the calendar. 
+EN: App to schedule the use of the pitch, each team has an manager who require the usage of the pitch on some date and which team they are going to play with. The owner of the pitch has the control of whom is playing on th pitch on the selected day in the calendar. 
 
 Technologies used: Kotlin, Android View, Firebase, MVVM, Room Library, Hilt, Clean Archtecture.
+
+PT: Aplicativo para gerenciar o uso do campo, cada time tem um gerente que solicita o uso do campo em alguma data e contra qual time vão jogar contra. O dono do campo tem controle sobre quem está jogando no jogo no dia selecionado do calendário.
 
 
 
